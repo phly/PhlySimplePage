@@ -14,25 +14,19 @@ return array(
         ),
     ),
     'console' => array('router' => array('routes' => array(
-        'phly-simple-page-clearall' => array(
-            'type' => 'Simple',
-            'options' => array(
-                'route' => 'PhlySimplePage cache clear all',
-                'defaults' => array(
-                    'controller' => 'PhlySimplePage\Controller\Cache',
-                    'action'     => 'clearAll',
-                ),
+        'phly-simple-page-clearall' => array('options' => array(
+            'route' => 'PhlySimplePage cache clear all',
+            'defaults' => array(
+                'controller' => 'PhlySimplePage\Controller\Cache',
+                'action'     => 'clearAll',
             ),
-        ),
-        'phly-simple-page-clearone' => array(
-            'type' => 'Simple',
-            'options' => array(
-                'route' => 'PhlySimplePage cache clear --page=',
-                'defaults' => array(
-                    'controller' => 'PhlySimplePage\Controller\Cache',
-                    'action'     => 'clearOne',
-                ),
+        )),
+        'phly-simple-page-clearone' => array('options' => array(
+            'route' => 'PhlySimplePage cache clear --page=',
+            'defaults' => array(
+                'controller' => 'PhlySimplePage\Controller\Cache',
+                'action'     => 'clearOne',
             ),
-        ),
+        )),
     ))),
 );

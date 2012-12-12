@@ -47,8 +47,8 @@ class Module
     public function getConsoleUsage()
     {
         return array(
-            'phly-simple-page cache clear all' => 'Clear caches for all static pages',
-            'phly-simple-page cache clear --page=' => 'Clear caches for a single static page',
+            'phlysimplepage cache clear all' => 'Clear caches for all static pages',
+            'phlysimplepage cache clear --page=' => 'Clear caches for a single static page',
             array('--page', 'Page name as matched via routing'),
         );
     }
@@ -67,7 +67,7 @@ class Module
     {
         $app    = $e->getTarget();
         $events = $app->getEventManager();
-        $events->attach('route', array($this, 'onFinishPost'), -10001);
+        $events->attach('route', array($this, 'onRoutePost'), -100);
 
         $services = $app->getServiceManager();
         if ($services->has('PhlySimplePage\PageCache')) {

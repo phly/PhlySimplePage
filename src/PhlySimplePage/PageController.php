@@ -6,6 +6,8 @@ use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
+use Zend\Http\Response as HttpResponse;
+use Zend\Mvc\Application;
 use Zend\Mvc\Exception;
 use Zend\Mvc\InjectApplicationEventInterface;
 use Zend\Mvc\MvcEvent;
@@ -59,10 +61,11 @@ class PageController implements
         $event = $this->getEvent();
         if (!$event) {
             $event = new MvcEvent();
-            $event->setRequest($request);
-            if ($response) {
-                $event->setResponse($response);
-            }
+        }
+
+        $event->setRequest($request);
+        if ($response) {
+            $event->setResponse($response);
         }
         $event->setTarget($this);
 
@@ -97,10 +100,12 @@ class PageController implements
 
         $template = $matches->getParam('template', false);
         if (!$template) {
-            throw new Exception\DomainException(sprintf(
-                'RouteMatch passed to %s was not assigned a template parameter',
-                __CLASS__
-            ));
+            $e->setError(Application::ERROR_CONTROLLER_INVALID);
+            $response = $e->getResponse();
+            if ($response instanceof HttpResponse) {
+                $response->setStatusCode(404);
+            }
+            return;
         }
 
         $model = new ViewModel();

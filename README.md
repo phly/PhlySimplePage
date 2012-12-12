@@ -103,12 +103,65 @@ return array(
 The, make sure you create a template for the page. In the above example, I'd 
 likely create the file in `module/Application/view/application/pages/about.phtml`.
 
+## Caching
+
+You can enable a write-through cache for all pages served by the
+`PageController`. This is done via the following steps:
+
+- Creating cache configuration
+- Enabling the page cache factory
+
+To create cache configuration, create a `phly-simple-page` configuration key in
+your configuration, with a `cache` subkey, and configuration suitable for
+`Zend\Cache\StorageFactory::factory`. As an example, the following would setup
+filesystem caching:
+
+```php
+return array(
+    'phly-simple-page' => array(
+        'cache' => array(
+            'adapter => array(
+                'name'   => 'filesystem',
+                'options => array(
+                    'namespace'       => 'pages',
+                    'cache_dir'       => getcwd() . '/data/cache',
+                    'dir_permission'  => 0777,
+                    'file_permission' => '0666',
+                ),
+            ),
+        ),
+    ),
+);
+```
+
+To enable the page cache factory, do the following:
+
+```php
+return array(
+    'service_manager' => array(
+        'factories' => array(
+            'PhlySimplePage\PageCache' => 'PhlySimplePage\PageCacheService',
+        ),
+    ),
+);
+```
+
+### Clearing the cache
+
+To clear the cache for any given page, or for all pages, your cache adapter (a)
+must support cache removal from the command line (APC, ZendServer, and several
+other adapters do not), and (b) must support flushing if you wish to clear all
+page caches at once.
+
+The module defines two command line actions:
+
+- `php public/index.php phlysimplepage cache clear all` -- clear all cached
+  pages at once.
+- `php public/index.php phlysimplepage cache clear --page=` clear a single
+  cached page; use the template name you used in the routing configuration as
+  the page value.
+
 ## TODO
 
-- Add listener(s) to allow caching of rendered static pages
-    - <del>Create cache service</del>
-    - <del>Create cache listener</del>
-    - Document how to enable caching
-    - <del>Create console tool for:</del>
-        - <del>Clearing all page caches</del>
-        - <del>Clearing specific page caches</del>
+- Ability to clear sets of pages
+- Ability to specify whitelists/blacklists of pages to cache

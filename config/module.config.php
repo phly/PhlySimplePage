@@ -17,7 +17,7 @@ return array(
         'phly-simple-page-clearall' => array(
             'type' => 'Simple',
             'options' => array(
-                'route' => 'phly-simple-page cache clear all',
+                'route' => 'PhlySimplePage cache clear all',
                 'defaults' => array(
                     'controller' => 'PhlySimplePage\Controller\Cache',
                     'action'     => 'clearAll',
@@ -27,7 +27,7 @@ return array(
         'phly-simple-page-clearone' => array(
             'type' => 'Simple',
             'options' => array(
-                'route' => 'phly-simple-page cache clear --page=',
+                'route' => 'PhlySimplePage cache clear --page=',
                 'defaults' => array(
                     'controller' => 'PhlySimplePage\Controller\Cache',
                     'action'     => 'clearOne',

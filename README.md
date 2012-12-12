@@ -41,7 +41,7 @@ Add the repository as a git submodule in your project.
 git submodule add git://github.com/weierophinney/PhlySimplePage.git vendor/PhlySimplePage
 ```
 
-## Use Composer
+### Use Composer
 
 Assuming you already have `composer.phar`, add `PhlySimplePage` to your
 `composer.json` file:
@@ -106,4 +106,3 @@ likely create the file in `module/Application/view/application/pages/about.phtml
 ## TODO
 
 - Add listener(s) to allow caching of rendered static pages
-- Add to packagist

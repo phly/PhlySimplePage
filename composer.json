@@ -1,10 +1,35 @@
 {
+    "name": "phly/phly-simple-page",
+    "description": "ZF2 Module for easily creating static pages",
+    "type": "library",
+    "keywords": [
+        "zf2",
+        "zend",
+        "module"
+    ],
+    "homepage": "https://github.com/weierophinney/PhlySimplePage",
     "repositories": [
         {
             "type": "composer",
             "url": "https://packages.zendframework.com/"
         }
     ],
+    "authors": [
+        {
+            "name": "Matthew Weier O'Phinney",
+            "email": "matthew@weierophinney.net",
+            "homepage": "http://mwop.net/"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "PhlySimplePage\\": "src/",
+            "PhlySimplePageTest\\": "test/"
+        },
+        "classmap": [
+            "./"
+        ]
+    },
     "require": {
         "php": ">=5.3.3",
         "zendframework/zend-eventmanager": "2.*",

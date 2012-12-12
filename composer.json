@@ -8,7 +8,8 @@
     "require": {
         "php": ">=5.3.3",
         "zendframework/zend-eventmanager": "2.*",
-        "zendframework/zend-dispatchable": "2.*",
+        "zendframework/zend-mvc": "2.*",
+        "zendframework/zend-stdlib": "2.*",
         "zendframework/zend-view": "2.*"
     }
 }

@@ -34,7 +34,11 @@ class Bootstrap
             $loader->add('Zend', $zf2Path . '/Zend');
         } else {
             include $zf2Path . '/Zend/Loader/AutoloaderFactory.php';
+            include $zf2Path . '/Zend/Loader/ClassMapAutoloader.php';
             AutoloaderFactory::factory(array(
+                'Zend\Loader\ClassMapAutoloader' => array(array(
+                    'PhlySimplePage\Module' => __DIR__ . '/../Module.php',
+                )),
                 'Zend\Loader\StandardAutoloader' => array(
                     'autoregister_zf' => true,
                     'namespaces' => array(

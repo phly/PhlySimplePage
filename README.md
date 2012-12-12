@@ -109,6 +109,6 @@ likely create the file in `module/Application/view/application/pages/about.phtml
     - <del>Create cache service</del>
     - <del>Create cache listener</del>
     - Document how to enable caching
-    - Create console tool for:
-        - Clearing all page caches
-        - Clearing specific page caches
+    - <del>Create console tool for:</del>
+        - <del>Clearing all page caches</del>
+        - <del>Clearing specific page caches</del>

@@ -40,6 +40,20 @@ class Module
     }
 
     /**
+     * Provide console usage messages for console endpoints
+     * 
+     * @return array
+     */
+    public function getConsoleUsage()
+    {
+        return array(
+            'phly-simple-page cache clear all' => 'Clear caches for all static pages',
+            'phly-simple-page cache clear --page=' => 'Clear caches for a single static page',
+            array('--page', 'Page name as matched via routing'),
+        );
+    }
+
+    /**
      * Listen to the application bootstrap event
      *
      * Registers a post-routing event. Additionally, if the 

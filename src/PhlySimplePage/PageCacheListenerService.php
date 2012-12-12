@@ -28,4 +28,3 @@ class PageCacheListenerService implements FactoryInterface
         return new PageCacheListener($cache);
     }
 }
-

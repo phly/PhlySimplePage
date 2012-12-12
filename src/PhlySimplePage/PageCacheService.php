@@ -34,7 +34,7 @@ class PageCacheService implements FactoryInterface
             ));
         }
 
-        $cacheConfig = $config['phly-simple-phly']['cache'];
+        $cacheConfig = $config['phly-simple-page']['cache'];
 
         $cache = StorageFactory::factory($cacheConfig);
         return $cache;

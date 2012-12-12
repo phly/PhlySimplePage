@@ -109,12 +109,14 @@ class PageCacheListener implements ListenerAggregateInterface
         if (!$template) {
             return;
         }
+
+        $cacheKey = $this->normalizeCacheKey($template);
         
-        $result = $cache->getItem($template, $success);
+        $result = $cache->getItem($cacheKey, $success);
         if (!$success) {
             // Not a cache hit; keep working, but indicate we should cache this
             $this->cacheThisRequest = true;
-            $this->cacheKey         = $template;
+            $this->cacheKey         = $cacheKey;
             return;
         }
 
@@ -141,5 +143,18 @@ class PageCacheListener implements ListenerAggregateInterface
         $response = $e->getResponse();
         $content  = $response->getContent();
         $this->cache->setItem($this->cacheKey, $content);
+    }
+
+    /**
+     * Normalize a cache key
+     *
+     * Substitutes an underscore for each of "/", "\", and ".".
+     * 
+     * @param  string $key 
+     * @return string
+     */
+    protected function normalizeCacheKey($key)
+    {
+        return str_replace(array('/', '\\', '.'), '_', $key);
     }
 }

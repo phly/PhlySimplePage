@@ -5,6 +5,7 @@ namespace PhlySimplePageTest;
 use PhlySimplePage\PageController;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Mvc\MvcEvent;
+use Zend\Mvc\Router\RouteMatch;
 use Zend\Stdlib\Request;
 use Zend\Stdlib\Response;
 use Zend\View\Model;

@@ -71,7 +71,6 @@ class Module
 
         $services = $app->getServiceManager();
         if ($services->has('PhlySimplePage\PageCache')) {
-echo "Registering cache listener<br />\n";
             $listener = $services->get('PhlySimplePage\PageCacheListener');
             $events->attach($listener);
         }

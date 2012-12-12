@@ -106,5 +106,4 @@ likely create the file in `module/Application/view/application/pages/about.phtml
 ## TODO
 
 - Add listener(s) to allow caching of rendered static pages
-- Add travis-ci build info
 - Add to packagist

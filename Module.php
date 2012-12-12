@@ -17,7 +17,7 @@ class Module
 {
     /**
      * Retrieve autoloader configuration for this module
-     * 
+     *
      * @return array
      */
     public function getAutoloaderConfig()
@@ -31,7 +31,7 @@ class Module
 
     /**
      * Retrieve application configuration for this module
-     * 
+     *
      * @return array
      */
     public function getConfig()
@@ -43,8 +43,8 @@ class Module
      * Listen to the application bootstrap event
      *
      * Registers a post-routing event
-     * 
-     * @param  \Zend\Mvc\MvcEvent $e 
+     *
+     * @param  \Zend\Mvc\MvcEvent $e
      */
     public function onBootstrap($e)
     {
@@ -56,10 +56,10 @@ class Module
     /**
      * Listen to the application route event
      *
-     * Registers a post-dispatch listener on the controller if the matched 
+     * Registers a post-dispatch listener on the controller if the matched
      * controller is the PageController from this module.
-     * 
-     * @param  \Zend\Mvc\MvcEvent $e 
+     *
+     * @param  \Zend\Mvc\MvcEvent $e
      */
     public function onRoutePost($e)
     {
@@ -82,10 +82,10 @@ class Module
     /**
      * Listen to the dispatch event from the PageController
      *
-     * If the controller result is a 404 status, triggers the application 
+     * If the controller result is a 404 status, triggers the application
      * dispatch.error event.
-     * 
-     * @param  \Zend\Mvc\MvcEvent $e 
+     *
+     * @param  \Zend\Mvc\MvcEvent $e
      */
     public function onDispatchPost($e)
     {

@@ -24,8 +24,8 @@ use Zend\View\Model\ViewModel;
 
 /**
  * Page controller
- * 
- * Generic page controller for mapping route end points directly to the 
+ *
+ * Generic page controller for mapping route end points directly to the
  * template that provides the display.
  */
 class PageController implements
@@ -52,10 +52,10 @@ class PageController implements
      * - current class name
      * - Zend\Stdlib\DispatchableInterface
      *
-     * It also registers the onDispatch method as the default handler for the 
+     * It also registers the onDispatch method as the default handler for the
      * dispatch event.
-     * 
-     * @param  EventManagerInterface $events 
+     *
+     * @param  EventManagerInterface $events
      * @return PageController
      */
     public function setEventManager(EventManagerInterface $events)
@@ -74,7 +74,7 @@ class PageController implements
      * Retrieve the event manager instance
      *
      * Lazy-creates an instance if none registered.
-     * 
+     *
      * @return EventManagerInterface
      */
     public function getEventManager()
@@ -87,7 +87,7 @@ class PageController implements
 
     /**
      * Set the current application event instance
-     * 
+     *
      * @param  EventInterface $event Typically an MvcEvent
      * @return PageController
      */
@@ -99,7 +99,7 @@ class PageController implements
 
     /**
      * Retrieve the current application event instance
-     * 
+     *
      * @return EventInterface|null
      */
     public function getEvent()
@@ -109,10 +109,10 @@ class PageController implements
 
     /**
      * Dispatch the current request
-     * 
+     *
      * @trigger dispatch
-     * @param   RequestInterface $request 
-     * @param   ResponseInterface|null $response 
+     * @param   RequestInterface $request
+     * @param   ResponseInterface|null $response
      * @return  mixed
      */
     public function dispatch(RequestInterface $request, ResponseInterface $response = null)
@@ -147,12 +147,12 @@ class PageController implements
      * If the event does not have route matches, raises an exception.
      *
      * If the route matches do not contain a template, sets the event error to
-     * Application::ERROR_CONTROLLER_INVALID, and, if the response is an HTTP 
+     * Application::ERROR_CONTROLLER_INVALID, and, if the response is an HTTP
      * response type, sets the status code to 404.
      *
      * Otherwise, it creates a ViewModel instance, and sets the template to
      * the value in the route match, and sets the ViewModel as the event result.
-     * 
+     *
      * @param  EventInterface $e Usually an MvcEvent
      * @throws Exception\DomainException
      */

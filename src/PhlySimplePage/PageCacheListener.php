@@ -112,7 +112,7 @@ class PageCacheListener implements ListenerAggregateInterface
 
         $cacheKey = $this->normalizeCacheKey($template);
         
-        $result = $cache->getItem($cacheKey, $success);
+        $result = $this->cache->getItem($cacheKey, $success);
         if (!$success) {
             // Not a cache hit; keep working, but indicate we should cache this
             $this->cacheThisRequest = true;

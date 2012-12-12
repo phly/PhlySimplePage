@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link      https://github.com/weierophinney/PhlySimplePage for the canonical source repository
+ * @copyright Copyright (c) 2012 Matthew Weier O'Phinney (http://mwop.net)
+ * @license   https://github.com/weierophinney/PhlySimplePage/blog/master/LICENSE.md New BSD License
+ */
 
 namespace PhlySimplePageTest;
 
@@ -12,6 +17,9 @@ use Zend\Stdlib\Request;
 use Zend\Stdlib\Response;
 use Zend\View\Model;
 
+/**
+ * Unit tests for PhlySimplePage\PageController
+ */
 class PageControllerTest extends TestCase
 {
     public function setUp()

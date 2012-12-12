@@ -95,31 +95,40 @@ class PageCacheListener implements ListenerAggregateInterface
      */
     public function onRoutePost($e)
     {
+echo "In " . __METHOD__ . "<br />\n";
         $matches = $e->getRouteMatch();
         if (!$matches) {
+echo "No route matches<br />\n";
             return;
         }
 
         $controller = $matches->getParam('controller');
         if ($controller != 'PhlySimplePage\Controller\Page') {
+echo "Controller does not match<br />\n";
             return;
         }
 
         $template = $matches->getParam('template', false);
         if (!$template) {
+echo "No template<br />\n";
             return;
         }
 
-        $cacheKey = $this->normalizeCacheKey($template);
+        $cacheKey = Module::normalizeCacheKey($template);
         
+echo "Attempting to retrieve from cache using $cacheKey<br />\n";
         $result = $this->cache->getItem($cacheKey, $success);
+echo "Attempting to retrieve from cache using $cacheKey<br />\n";
         if (!$success) {
+echo "No cache hit<br />\n";
             // Not a cache hit; keep working, but indicate we should cache this
             $this->cacheThisRequest = true;
             $this->cacheKey         = $cacheKey;
             return;
         }
 
+echo "Cache hit; returning response<br />\n";
+echo "<pre>" . htmlspecialchars($result) . "</pre>\n";
         // Got a cache hit; inject it in the response and return the response.
         $response = $e->getResponse();
         $response->setContent($result);
@@ -135,26 +144,16 @@ class PageCacheListener implements ListenerAggregateInterface
      */
     public function onFinishPost($e)
     {
+echo "In " . __METHOD__ . "<br />\n";
         if (!$this->cacheThisRequest || !$this->cacheKey) {
+echo "Nothing to do<br />\n";
             return;
         }
 
         // Cache the result
+echo "Caching response content to key {$this->cacheKey}<br />\n";
         $response = $e->getResponse();
         $content  = $response->getContent();
         $this->cache->setItem($this->cacheKey, $content);
-    }
-
-    /**
-     * Normalize a cache key
-     *
-     * Substitutes an underscore for each of "/", "\", and ".".
-     * 
-     * @param  string $key 
-     * @return string
-     */
-    protected function normalizeCacheKey($key)
-    {
-        return str_replace(array('/', '\\', '.'), '_', $key);
     }
 }

@@ -64,16 +64,20 @@ class CacheController extends AbstractActionController
         }
 
         $page = $this->params()->fromRoute('page', false);
-        if (!$page
-            || !$page->hasItem($page)
-        ) {
-            $this->console->writeLine('No page provided, or page is not in cache', Color::GREEN);
+        if (!$page) {
+            $this->console->writeLine('No page provided', Color::GREEN);
             return;
         }
 
         $this->console->writeLine(sprintf('Clearing cache for page "%s"', $page), Color::BLUE);
 
-        $this->cache->removeItem($page);
+        $key = Module::normalizeCacheKey($page);
+        if (!$this->cache->hasItem($key)) {
+            $this->console->writeLine('Page is not in cache', Color::GREEN);
+            return;
+        }
+
+        $this->cache->removeItem($key);
 
         $this->console->writeLine('Cache operation complete', Color::GREEN);
     }

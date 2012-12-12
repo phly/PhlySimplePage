@@ -71,6 +71,7 @@ class Module
 
         $services = $app->getServiceManager();
         if ($services->has('PhlySimplePage\PageCache')) {
+echo "Registering cache listener<br />\n";
             $listener = $services->get('PhlySimplePage\PageCacheListener');
             $events->attach($listener);
         }
@@ -133,5 +134,16 @@ class Module
         if ($return) {
             $e->setResult($return);
         }
+    }
+
+    /**
+     * Normalize a cache key
+     * 
+     * @param  string $key 
+     * @return string
+     */
+    public static function normalizeCacheKey($key)
+    {
+        return str_replace(array('/', '\\', '.'), '_', $key);
     }
 }

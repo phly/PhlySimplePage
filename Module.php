@@ -42,7 +42,10 @@ class Module
     /**
      * Listen to the application bootstrap event
      *
-     * Registers a post-routing event
+     * Registers a post-routing event. Additionally, if the 
+     * "PhlySimplePage\PageCache" service is registered, it will pull the
+     * "PhlySimplePage\PageCacheListener" service and attach it to the 
+     * event manager.
      *
      * @param  \Zend\Mvc\MvcEvent $e
      */
@@ -50,7 +53,13 @@ class Module
     {
         $app    = $e->getTarget();
         $events = $app->getEventManager();
-        $events->attach('route', array($this, 'onRoutePost'), -100);
+        $events->attach('route', array($this, 'onFinishPost'), -10001);
+
+        $services = $app->getServiceManager();
+        if ($services->has('PhlySimplePage\PageCache')) {
+            $listener = $services->get('PhlySimplePage\PageCacheListener');
+            $events->attach($listener);
+        }
     }
 
     /**

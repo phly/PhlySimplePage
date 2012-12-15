@@ -106,7 +106,7 @@ class PageCacheListener implements ListenerAggregateInterface
         }
 
         // Is caching disabled for this route?
-        $doNotCache = $matces->getParam('do_not_cache', false);
+        $doNotCache = $matches->getParam('do_not_cache', false);
         if ($doNotCache) {
             return;
         }

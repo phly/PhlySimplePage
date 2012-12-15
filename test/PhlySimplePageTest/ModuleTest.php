@@ -50,8 +50,19 @@ class ModuleTest extends TestCase
         StaticEventManager::resetInstance();
     }
 
+    protected function getEmptyMockForServiceManager()
+    {
+        $services = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $services->expects($this->once())
+            ->method('has')
+            ->with($this->equalTo('PhlySimplePage\PageCache'))
+            ->will($this->returnValue(false));
+        return $services;
+    }
+
     public function testBootstrapListenerRegistersRouteListener()
     {
+        $this->application->services = $this->getEmptyMockForServiceManager();
         $this->module->onBootstrap($this->event);
         $listeners = $this->events->getListeners('route');
         $this->assertCount(1, $listeners);

@@ -17,6 +17,7 @@ use Zend\Mvc\ApplicationInterface;
 class Application implements ApplicationInterface
 {
     protected $events;
+    public $services;
 
     public function setEventManager(EventManagerInterface $events)
     {
@@ -48,6 +49,7 @@ class Application implements ApplicationInterface
 
     public function getServiceManager()
     {
+        return $this->services;
     }
 
     public function run()

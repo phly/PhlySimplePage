@@ -38,5 +38,8 @@
         "zendframework/zend-mvc": "2.*",
         "zendframework/zend-stdlib": "2.*",
         "zendframework/zend-view": "2.*"
+    },
+    "require-dev": {
+        "zendframework/zend-servicemanager": "2.*"
     }
 }

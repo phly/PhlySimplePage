@@ -22,6 +22,7 @@ class Bootstrap
 
         if (is_readable($vendorPath . '/autoload.php')) {
             $loader = include $vendorPath . '/autoload.php';
+            return;
         }
 
         $zf2Path = getenv('ZF2_PATH') ?: (defined('ZF2_PATH') ? ZF2_PATH : (is_dir($vendorPath . '/ZF2/library') ? $vendorPath . '/ZF2/library' : false));
@@ -52,13 +53,18 @@ class Bootstrap
 
     protected static function findParentPath($path)
     {
-        $dir = __DIR__;
+        $dir         = __DIR__;
         $previousDir = '.';
         while (!is_dir($dir . '/' . $path)) {
             $dir = dirname($dir);
-            if ($previousDir === $dir) return false;
+
+            if ($previousDir === $dir) {
+                return false;
+            }
+
             $previousDir = $dir;
         }
+
         return $dir . '/' . $path;
     }
 }

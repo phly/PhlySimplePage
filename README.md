@@ -146,6 +146,26 @@ return array(
 );
 ```
 
+### Selectively disabling caching for given routes
+
+If you do **not** want to cache a specific page/route, you can disable it by
+adding the default key `do_not_cache` with a boolean `true` value to the route.
+As an example:
+
+```php
+'about' => array(
+    'type' => 'Literal',
+    'options' => array(
+        'route' => '/about',
+        'defaults' => array(
+            'controller'   => 'PhlySimplePage\Controller\Page',
+            'template'     => 'application/pages/about',
+            'do_not_cache' => true,
+        ),
+    ),
+),
+```
+
 ### Clearing the cache
 
 To clear the cache for any given page, or for all pages, your cache adapter (a)
@@ -164,4 +184,3 @@ The module defines two command line actions:
 ## TODO
 
 - Ability to clear sets of pages
-- Ability to specify whitelists/blacklists of pages to cache

@@ -19,8 +19,8 @@ class PageCacheService implements FactoryInterface
 {
     /**
      * Create and return cache storage adapter
-     * 
-     * @param  ServiceLocatorInterface $services 
+     *
+     * @param  ServiceLocatorInterface $services
      * @return \Zend\Cache\Storage\Adapter\AbstractAdapter
      * @throws Exception\ServiceNotCreatedException
      */

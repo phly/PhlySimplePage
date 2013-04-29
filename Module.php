@@ -41,7 +41,7 @@ class Module
 
     /**
      * Provide console usage messages for console endpoints
-     * 
+     *
      * @return array
      */
     public function getConsoleUsage()
@@ -56,9 +56,9 @@ class Module
     /**
      * Listen to the application bootstrap event
      *
-     * Registers a post-routing event. Additionally, if the 
+     * Registers a post-routing event. Additionally, if the
      * "PhlySimplePage\PageCache" service is registered, it will pull the
-     * "PhlySimplePage\PageCacheListener" service and attach it to the 
+     * "PhlySimplePage\PageCacheListener" service and attach it to the
      * event manager.
      *
      * @param  \Zend\Mvc\MvcEvent $e
@@ -137,8 +137,8 @@ class Module
 
     /**
      * Normalize a cache key
-     * 
-     * @param  string $key 
+     *
+     * @param  string $key
      * @return string
      */
     public static function normalizeCacheKey($key)

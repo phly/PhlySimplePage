@@ -8,12 +8,6 @@
         "module"
     ],
     "homepage": "https://github.com/weierophinney/PhlySimplePage",
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.zendframework.com/"
-        }
-    ],
     "authors": [
         {
             "name": "Matthew Weier O'Phinney",

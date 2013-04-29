@@ -17,8 +17,8 @@ class PageCacheListenerService implements FactoryInterface
 {
     /**
      * Create and return page cache listener
-     * 
-     * @param  ServiceLocatorInterface $services 
+     *
+     * @param  ServiceLocatorInterface $services
      * @return PageCacheListener
      * @throws Exception\ServiceNotCreatedException
      */

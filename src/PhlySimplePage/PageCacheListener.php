@@ -12,7 +12,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 
 /**
- * Event listener implementing page level caching for pages provided by the 
+ * Event listener implementing page level caching for pages provided by the
  * PageController.
  */
 class PageCacheListener implements ListenerAggregateInterface
@@ -29,22 +29,22 @@ class PageCacheListener implements ListenerAggregateInterface
 
     /**
      * Whether or not to cache this request
-     * 
+     *
      * @var bool
      */
     protected $cacheThisRequest = false;
 
     /**
      * Key to use when caching
-     * 
+     *
      * @var string
      */
     protected $cacheKey;
 
     /**
      * Constructor
-     * 
-     * @param AbstractAdapter $cache 
+     *
+     * @param AbstractAdapter $cache
      */
     public function __construct(AbstractAdapter $cache)
     {
@@ -56,10 +56,10 @@ class PageCacheListener implements ListenerAggregateInterface
      *
      * Registers two event listeners:
      *
-     * - route, at priority -99, 
-     * - finish, at priority -10001, 
-     * 
-     * @param EventManagerInterface $events 
+     * - route, at priority -99,
+     * - finish, at priority -10001,
+     *
+     * @param EventManagerInterface $events
      */
     public function attach(EventManagerInterface $events)
     {
@@ -69,8 +69,8 @@ class PageCacheListener implements ListenerAggregateInterface
 
     /**
      * Detach any registered listeners from the given event manager instance.
-     * 
-     * @param EventManagerInterface $events 
+     *
+     * @param EventManagerInterface $events
      */
     public function detach(EventManagerInterface $events)
     {
@@ -85,12 +85,12 @@ class PageCacheListener implements ListenerAggregateInterface
      * "route" event listener
      *
      * Checks to see if (a) we have a controller we're interested in, (b) if
-     * a "template" was provided in the route matches, and (c) if we have a 
-     * cache hit for that template name. If we do, we return a populated 
+     * a "template" was provided in the route matches, and (c) if we have a
+     * cache hit for that template name. If we do, we return a populated
      * response; if not, we continue, but indicate that we should cache the
      * response on completion.
-     * 
-     * @param  \Zend\Mvc\MvcEvent $e 
+     *
+     * @param  \Zend\Mvc\MvcEvent $e
      * @return null|\Zend\Stdlib\ResponseInterface
      */
     public function onRoutePost($e)
@@ -117,7 +117,7 @@ class PageCacheListener implements ListenerAggregateInterface
         }
 
         $cacheKey = Module::normalizeCacheKey($template);
-        
+
         $result = $this->cache->getItem($cacheKey, $success);
         if (!$success) {
             // Not a cache hit; keep working, but indicate we should cache this
@@ -136,8 +136,8 @@ class PageCacheListener implements ListenerAggregateInterface
      * "finish" event listener
      *
      * Checks to see if we should cache the current request; if so, it does.
-     * 
-     * @param  \Zend\Mvc\MvcEvent $e 
+     *
+     * @param  \Zend\Mvc\MvcEvent $e
      */
     public function onFinishPost($e)
     {

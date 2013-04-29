@@ -120,7 +120,7 @@ filesystem caching:
 return array(
     'phly-simple-page' => array(
         'cache' => array(
-            'adapter => array(
+            'adapter' => array(
                 'name'   => 'filesystem',
                 'options => array(
                     'namespace'       => 'pages',

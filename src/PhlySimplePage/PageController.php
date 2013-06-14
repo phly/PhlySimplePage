@@ -16,6 +16,7 @@ use Zend\Mvc\Application;
 use Zend\Mvc\Exception;
 use Zend\Mvc\InjectApplicationEventInterface;
 use Zend\Mvc\MvcEvent;
+use Zend\Mvc\Controller\PluginManager;
 use Zend\Mvc\Router\RouteMatch;
 use Zend\Stdlib\DispatchableInterface;
 use Zend\Stdlib\RequestInterface;
@@ -42,6 +43,11 @@ class PageController implements
      * @var EventManagerInterface
      */
     protected $events;
+
+    /**
+     * @var PluginManager
+     */
+    protected $plugins;
 
     /**
      * Set the event manager instance
@@ -105,6 +111,47 @@ class PageController implements
     public function getEvent()
     {
         return $this->event;
+    }
+
+    /**
+     * Get plugin manager
+     *
+     * @return PluginManager
+     */
+    public function getPluginManager()
+    {
+        if (!$this->plugins) {
+            $this->setPluginManager(new PluginManager());
+        }
+
+        $this->plugins->setController($this);
+        return $this->plugins;
+    }
+
+    /**
+     * Set plugin manager
+     *
+     * @param  PluginManager $plugins
+     * @return AbstractController
+     */
+    public function setPluginManager(PluginManager $plugins)
+    {
+        $this->plugins = $plugins;
+        $this->plugins->setController($this);
+
+        return $this;
+    }
+
+    /**
+     * Get plugin instance
+     *
+     * @param  string     $name    Name of plugin to return
+     * @param  null|array $options Options to pass to plugin constructor (if not already instantiated)
+     * @return mixed
+     */
+    public function plugin($name, array $options = null)
+    {
+        return $this->getPluginManager()->get($name, $options);
     }
 
     /**
@@ -190,7 +237,7 @@ class PageController implements
         $model->setTemplate($template);
 
         if ($layout) {
-            $model->setLayout($layout);
+            $this->plugin('layout')->setTemplate($layout);
         }
 
         $e->setResult($model);

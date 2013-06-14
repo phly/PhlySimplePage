@@ -175,6 +175,8 @@ class PageController implements
         }
 
         $template = $matches->getParam('template', false);
+        $layout   = $matches->getParam('layout', false);
+
         if (!$template) {
             $e->setError(Application::ERROR_CONTROLLER_INVALID);
             $response = $e->getResponse();
@@ -186,6 +188,10 @@ class PageController implements
 
         $model = new ViewModel();
         $model->setTemplate($template);
+
+        if ($layout) {
+            $model->setLayout($layout);
+        }
 
         $e->setResult($model);
     }

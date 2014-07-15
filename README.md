@@ -92,6 +92,8 @@ return array(
                     'defaults' => array(
                         'controller' => 'PhlySimplePage\Controller\Page',
                         'template'   => 'application/pages/about',
+                        // optionally set a specific layout for this page
+                        'layout'     => 'layout/some-layout',
                     ),
                 ),
             ),

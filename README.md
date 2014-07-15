@@ -102,7 +102,7 @@ return array(
 );
 ```
 
-The, make sure you create a template for the page. In the above example, I'd 
+Then, make sure you create a template for the page. In the above example, I'd 
 likely create the file in `module/Application/view/application/pages/about.phtml`.
 
 ## Caching

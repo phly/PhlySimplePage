@@ -84,4 +84,15 @@ class PageControllerTest extends TestCase
         $this->assertInstanceOf('Zend\View\Model\ModelInterface', $result);
         $this->assertEquals('this/template', $result->getTemplate());
     }
+
+    public function testSetsLayoutTemplateIfLayoutFromRouteMatchIsSet()
+    {
+        $matches = new RouteMatch(array('template' => 'this/template', 'layout' => 'this/layout'));
+        $this->event->setRouteMatch($matches);
+        $request = new Request();
+        $this->controller->dispatch($request);
+        $layoutViewModel = $this->event->getViewModel();
+        $this->assertInstanceOf('Zend\View\Model\ModelInterface', $layoutViewModel);
+        $this->assertEquals('this/layout', $layoutViewModel->getTemplate());
+    }
 }

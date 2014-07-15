@@ -188,5 +188,10 @@ class PageController implements
         $model->setTemplate($template);
 
         $e->setResult($model);
+
+        $layout = $matches->getParam('layout', false);
+        if ($layout) {
+            $e->getViewModel()->setTemplate($layout);
+        }
     }
 }

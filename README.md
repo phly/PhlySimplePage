@@ -124,10 +124,10 @@ return array(
         'cache' => array(
             'adapter' => array(
                 'name'   => 'filesystem',
-                'options => array(
+                'options' => array(
                     'namespace'       => 'pages',
                     'cache_dir'       => getcwd() . '/data/cache',
-                    'dir_permission'  => 0777,
+                    'dir_permission'  => '0777',
                     'file_permission' => '0666',
                 ),
             ),

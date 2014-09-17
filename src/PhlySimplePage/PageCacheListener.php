@@ -10,6 +10,7 @@ namespace PhlySimplePage;
 use Zend\Cache\Storage\Adapter\AbstractAdapter;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
+use Zend\Http;
 
 /**
  * Event listener implementing page level caching for pages provided by the
@@ -99,6 +100,11 @@ class PageCacheListener implements ListenerAggregateInterface
         if (!$matches) {
             return;
         }
+        
+        $request = $e->getRequest();
+        if (!$request instanceof Http\Request) {
+            return;
+        }
 
         $controller = $matches->getParam('controller');
         if ($controller != 'PhlySimplePage\Controller\Page') {
@@ -111,12 +117,7 @@ class PageCacheListener implements ListenerAggregateInterface
             return;
         }
 
-        $template = $matches->getParam('template', false);
-        if (!$template) {
-            return;
-        }
-
-        $cacheKey = Module::normalizeCacheKey($template);
+        $cacheKey = Module::normalizeCacheKey($request->getUriString());
 
         $result = $this->cache->getItem($cacheKey, $success);
         if (!$success) {

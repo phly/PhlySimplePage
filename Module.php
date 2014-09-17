@@ -143,6 +143,6 @@ class Module
      */
     public static function normalizeCacheKey($key)
     {
-        return str_replace(array('/', '\\', '.'), '_', $key);
+        return str_replace(array('/', '\\', '.', ':'), '_', $key);
     }
 }

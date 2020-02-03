@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- Adds package configuration to opt-in to either zend-component-installer or laminas-component-installer in order to automate registration of the module in MVC applications during installation.
 
 ### Changed
 

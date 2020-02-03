@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.0.0 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- The package now targets the Laminas MVC, and not the Zend Framework MVC.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- The packge removes support for zend-mvc-console tooling in favor of the vendor binary (`phly-simple-page`) provided.
+
+### Fixed
+
+- Nothing.
+
 ## 1.1.0 - 2020-02-03
 
 ### Added

@@ -13,7 +13,6 @@ use Zend\Http\Response as HttpResponse;
 use Zend\Mvc\Application;
 use Zend\Mvc\Exception\DomainException;
 use Zend\Mvc\MvcEvent;
-use Zend\Router\RouteMatch;
 use Zend\Stdlib\Request;
 
 /**
@@ -21,6 +20,8 @@ use Zend\Stdlib\Request;
  */
 class PageControllerTest extends TestCase
 {
+    use RouteMatchCreationTrait;
+
     public function setUp()
     {
         $this->event      = new MvcEvent();
@@ -53,7 +54,7 @@ class PageControllerTest extends TestCase
 
     public function testSetsNotFoundErrorOnDispatchIfRouteMatchDoesNotContainTemplate()
     {
-        $matches = new RouteMatch(array());
+        $matches = $this->createRouteMatch();
         $this->event->setRouteMatch($matches);
         $request = new Request();
         $this->controller->dispatch($request);
@@ -64,7 +65,7 @@ class PageControllerTest extends TestCase
 
     public function testSets404ResponseStatusOnDispatchIfRouteMatchDoesNotContainTemplate()
     {
-        $matches = new RouteMatch(array());
+        $matches = $this->createRouteMatch();
         $this->event->setRouteMatch($matches);
 
         $request  = new Request();
@@ -76,7 +77,7 @@ class PageControllerTest extends TestCase
 
     public function testReturnsViewModelWithTemplateFromRouteMatchOnSuccess()
     {
-        $matches = new RouteMatch(array('template' => 'this/template'));
+        $matches = $this->createRouteMatch(['template' => 'this/template']);
         $this->event->setRouteMatch($matches);
         $request = new Request();
         $this->controller->dispatch($request);
@@ -87,7 +88,7 @@ class PageControllerTest extends TestCase
 
     public function testSetsLayoutTemplateIfLayoutFromRouteMatchIsSet()
     {
-        $matches = new RouteMatch(array('template' => 'this/template', 'layout' => 'this/layout'));
+        $matches = $this->createRouteMatch(['template' => 'this/template', 'layout' => 'this/layout']);
         $this->event->setRouteMatch($matches);
         $request = new Request();
         $this->controller->dispatch($request);

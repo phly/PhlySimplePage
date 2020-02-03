@@ -19,7 +19,6 @@ use Zend\EventManager\StaticEventManager;
 use Zend\EventManager\Test\EventListenerIntrospectionTrait;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
-use Zend\Router\RouteMatch;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -28,6 +27,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class ModuleTest extends TestCase
 {
     use EventListenerIntrospectionTrait;
+    use RouteMatchCreationTrait;
 
     public function setUp()
     {
@@ -43,9 +43,9 @@ class ModuleTest extends TestCase
         $this->application = new TestAsset\Application();
         $this->application->setEventManager($this->events);
 
-        $this->matches = new RouteMatch(array(
+        $this->matches = $this->createRouteMatch([
             'controller' => 'PhlySimplePage\Controller\Page',
-        ));
+        ]);
 
         $this->event = new MvcEvent();
         $this->event->setApplication($this->application);
@@ -140,9 +140,9 @@ class ModuleTest extends TestCase
 
     public function testRouteListenerDoesNotRegistersSharedDispatchEventListenerWhenRouteMatchControllerDoesNotMatch()
     {
-        $matches = new RouteMatch(array(
+        $matches = $this->createRouteMatch([
             'controller' => 'Some\Controller\Other',
-        ));
+        ]);
 
         $event = new MvcEvent();
         $event->setApplication($this->application);

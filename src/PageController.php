@@ -16,6 +16,7 @@ use Zend\Mvc\Application;
 use Zend\Mvc\Exception;
 use Zend\Mvc\InjectApplicationEventInterface;
 use Zend\Mvc\MvcEvent;
+use Zend\Mvc\Router\RouteMatch as LegacyRouteMatch;
 use Zend\Router\RouteMatch;
 use Zend\Stdlib\DispatchableInterface;
 use Zend\Stdlib\RequestInterface;
@@ -170,7 +171,9 @@ class PageController implements
         }
 
         $matches = $e->getRouteMatch();
-        if (!$matches instanceof RouteMatch) {
+        if (! $matches instanceof RouteMatch
+            && ! $matches instanceof LegacyRouteMatch
+        ) {
             throw new Exception\DomainException(sprintf(
                 'No RouteMatch instance provided to event passed to %s',
                 __CLASS__

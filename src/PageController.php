@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://github.com/weierophinney/PhlySimplePage for the canonical source repository
- * @copyright Copyright (c) 2012 Matthew Weier O'Phinney (http://mwop.net)
+ * @copyright Copyright (c) 2012-2020 Matthew Weier O'Phinney (https://mwop.net)
  * @license   https://github.com/weierophinney/PhlySimplePage/blog/master/LICENSE.md New BSD License
  */
 
@@ -16,7 +16,7 @@ use Zend\Mvc\Application;
 use Zend\Mvc\Exception;
 use Zend\Mvc\InjectApplicationEventInterface;
 use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
+use Zend\Router\RouteMatch;
 use Zend\Stdlib\DispatchableInterface;
 use Zend\Stdlib\RequestInterface;
 use Zend\Stdlib\ResponseInterface;
@@ -118,7 +118,7 @@ class PageController implements
     public function dispatch(RequestInterface $request, ResponseInterface $response = null)
     {
         $event = $this->getEvent();
-        if (!$event) {
+        if (! $event) {
             $event = new MvcEvent();
         }
 
@@ -126,11 +126,14 @@ class PageController implements
         if ($response) {
             $event->setResponse($response);
         }
-        $event->setTarget($this);
 
-        $results = $this->getEventManager()->trigger(__FUNCTION__, $event, function ($r) {
-            return ($r instanceof ResponseInterface);
-        });
+        $event->setTarget($this);
+        $event->setName(__FUNCTION__);
+
+        $results = $this->getEventManager()
+            ->triggerEventUntil(function ($r) {
+                return $r instanceof ResponseInterface;
+            }, $event);
 
         if ($results->stopped()) {
             return $results->last();
@@ -158,7 +161,7 @@ class PageController implements
      */
     public function onDispatch(EventInterface $e)
     {
-        if (!$e instanceof MvcEvent) {
+        if (! $e instanceof MvcEvent) {
             throw new Exception\DomainException(sprintf(
                 '%s requires an MvcEvent instance; received "%s"',
                 __CLASS__,

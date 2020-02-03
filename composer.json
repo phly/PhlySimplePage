@@ -12,35 +12,44 @@
         {
             "name": "Matthew Weier O'Phinney",
             "email": "matthew@weierophinney.net",
-            "homepage": "http://mwop.net/"
+            "homepage": "https://mwop.net/"
         }
     ],
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "PhlySimplePage\\": "src/",
             "PhlySimplePageTest\\": "test/"
-        },
-        "classmap": [
-            "./"
-        ]
+        }
     },
     "require": {
-        "php": ">=5.3.3",
-        "zendframework/zend-console": "2.*",
-        "zendframework/zend-eventmanager": "2.*",
-        "zendframework/zend-http": "2.*",
-        "zendframework/zend-mvc": "2.*",
-        "zendframework/zend-stdlib": "2.*",
-        "zendframework/zend-view": "2.*"
+        "php": "^5.6 || ^7.0",
+        "zendframework/zend-cache": "^2.9",
+        "zendframework/zend-console": "^2.8",
+        "zendframework/zend-eventmanager": "^2.6.4 || ^3.2.1",
+        "zendframework/zend-http": "^2.9.1",
+        "zendframework/zend-mvc": "^2.7.9 || ^3.1.1",
+        "zendframework/zend-stdlib": "^2.7.7 || ^3.2.1",
+        "zendframework/zend-view": "^2.9.1"
     },
     "require-dev": {
-        "fabpot/php-cs-fixer": "*@dev",
-        "phpunit/PHPUnit": "~3.7.0",
-        "zendframework/zend-servicemanager": "2.*"
+        "zendframework/zend-coding-standard": "~1.0.0",
+        "phpunit/phpunit": "^5.7.25 || ^6.4.4",
+        "zendframework/zend-servicemanager": "^2.7.11 || ^3.4.0"
     },
     "extra": {
         "zf": {
             "module": "PhlySimplePage"
         }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "upload-coverage": "coveralls -v"
     }
 }

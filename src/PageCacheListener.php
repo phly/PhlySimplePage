@@ -61,7 +61,7 @@ class PageCacheListener implements ListenerAggregateInterface
      *
      * @param EventManagerInterface $events
      */
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach('route', array($this, 'onRoutePost'), -99);
         $this->listeners[] = $events->attach('finish', array($this, 'onFinishPost'), -10001);

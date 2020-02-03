@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- Updates dependencies to latest stable versions of all packages. This means both the latest `2.*` and `3.*` releases for zend-mvc, zend-eventmanager, and zend-servicemanager. If you were using this on earlier versions, you may need to update your application before you can use the latest version.
 
 ### Deprecated
 

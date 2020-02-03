@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
+- The package now requires a minimum PHP version of 7.0.
+
 - The package now targets the Laminas MVC, and not the Zend Framework MVC.
 
 ### Deprecated

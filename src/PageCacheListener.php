@@ -25,7 +25,7 @@ class PageCacheListener implements ListenerAggregateInterface
     /**
      * @var \Zend\Stdlib\CallbackHandler[]
      */
-    protected $listeners = array();
+    protected $listeners = [];
 
     /**
      * Whether or not to cache this request
@@ -63,8 +63,8 @@ class PageCacheListener implements ListenerAggregateInterface
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        $this->listeners[] = $events->attach('route', array($this, 'onRoutePost'), -99);
-        $this->listeners[] = $events->attach('finish', array($this, 'onFinishPost'), -10001);
+        $this->listeners[] = $events->attach('route', [$this, 'onRoutePost'], -99);
+        $this->listeners[] = $events->attach('finish', [$this, 'onFinishPost'], -10001);
     }
 
     /**
@@ -96,7 +96,7 @@ class PageCacheListener implements ListenerAggregateInterface
     public function onRoutePost($e)
     {
         $matches = $e->getRouteMatch();
-        if (!$matches) {
+        if (! $matches) {
             return;
         }
 
@@ -112,14 +112,14 @@ class PageCacheListener implements ListenerAggregateInterface
         }
 
         $template = $matches->getParam('template', false);
-        if (!$template) {
+        if (! $template) {
             return;
         }
 
         $cacheKey = Module::normalizeCacheKey($template);
 
         $result = $this->cache->getItem($cacheKey, $success);
-        if (!$success) {
+        if (! $success) {
             // Not a cache hit; keep working, but indicate we should cache this
             $this->cacheThisRequest = true;
             $this->cacheKey         = $cacheKey;
@@ -141,7 +141,7 @@ class PageCacheListener implements ListenerAggregateInterface
      */
     public function onFinishPost($e)
     {
-        if (!$this->cacheThisRequest || !$this->cacheKey) {
+        if (! $this->cacheThisRequest || ! $this->cacheKey) {
             return;
         }
 

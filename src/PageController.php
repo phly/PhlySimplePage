@@ -61,12 +61,12 @@ class PageController implements
      */
     public function setEventManager(EventManagerInterface $events)
     {
-        $events->setIdentifiers(array(
+        $events->setIdentifiers([
             __CLASS__,
             get_class($this),
             'Zend\Stdlib\DispatchableInterface',
-        ));
-        $events->attach('dispatch', array($this, 'onDispatch'));
+        ]);
+        $events->attach('dispatch', [$this, 'onDispatch']);
         $this->events = $events;
         return $this;
     }
@@ -80,7 +80,7 @@ class PageController implements
      */
     public function getEventManager()
     {
-        if (!$this->events) {
+        if (! $this->events) {
             $this->setEventManager(new EventManager());
         }
         return $this->events;
@@ -181,7 +181,7 @@ class PageController implements
         }
 
         $template = $matches->getParam('template', false);
-        if (!$template) {
+        if (! $template) {
             $e->setError(Application::ERROR_CONTROLLER_INVALID);
             $response = $e->getResponse();
             if ($response instanceof HttpResponse) {

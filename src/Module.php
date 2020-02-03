@@ -73,7 +73,7 @@ class Module
     public function onRoutePost($e)
     {
         $matches = $e->getRouteMatch();
-        if (!$matches) {
+        if (! $matches) {
             return;
         }
 
@@ -99,7 +99,7 @@ class Module
     public function onDispatchPost($e)
     {
         $target = $e->getTarget();
-        if (!$target instanceof PageController) {
+        if (! $target instanceof PageController) {
             return;
         }
 

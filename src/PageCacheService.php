@@ -27,9 +27,11 @@ class PageCacheService implements FactoryInterface
     public function createService(ServiceLocatorInterface $services)
     {
         $config = $services->get('Config');
-        if (!isset($config['phly-simple-page'], $config['phly-simple-page']['cache'])) {
+        if (! isset($config['phly-simple-page'], $config['phly-simple-page']['cache'])) {
             throw new Exception\ServiceNotCreatedException(sprintf(
-                '%s could not create a cache storage adapter, as the ["phly-simple-page"] and/or ["phly-simple-page"]["cache"] key was missing',
+                '%s could not create a cache storage adapter,'
+                . ' as the ["phly-simple-page"] and/or ["phly-simple-page"]["cache"]'
+                . ' key was missing',
                 __CLASS__
             ));
         }

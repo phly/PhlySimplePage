@@ -17,20 +17,4 @@ return array(
             PageCacheListener::class => PageCacheListenerService::class,
         ),
     ),
-    'console' => array('router' => array('routes' => array(
-        'phly-simple-page-clearall' => array('options' => array(
-            'route' => 'phlysimplepage cache clear all',
-            'defaults' => array(
-                'controller' => 'PhlySimplePage\Controller\Cache',
-                'action'     => 'clearAll',
-            ),
-        )),
-        'phly-simple-page-clearone' => array('options' => array(
-            'route' => 'phlysimplepage cache clear --page=',
-            'defaults' => array(
-                'controller' => 'PhlySimplePage\Controller\Cache',
-                'action'     => 'clearOne',
-            ),
-        )),
-    ))),
 );

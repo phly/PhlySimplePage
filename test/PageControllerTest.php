@@ -9,11 +9,11 @@ namespace PhlySimplePageTest;
 
 use PhlySimplePage\PageController;
 use PHPUnit\Framework\TestCase;
-use Zend\Http\Response as HttpResponse;
-use Zend\Mvc\Application;
-use Zend\Mvc\Exception\DomainException;
-use Zend\Mvc\MvcEvent;
-use Zend\Stdlib\Request;
+use Laminas\Http\Response as HttpResponse;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\Exception\DomainException;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Stdlib\Request;
 
 /**
  * Unit tests for PhlySimplePage\PageController
@@ -31,17 +31,17 @@ class PageControllerTest extends TestCase
 
     public function testIsEventManagerAware()
     {
-        $this->assertInstanceOf('Zend\EventManager\EventManagerAwareInterface', $this->controller);
+        $this->assertInstanceOf('Laminas\EventManager\EventManagerAwareInterface', $this->controller);
     }
 
     public function testIsDispatchable()
     {
-        $this->assertInstanceOf('Zend\Stdlib\DispatchableInterface', $this->controller);
+        $this->assertInstanceOf('Laminas\Stdlib\DispatchableInterface', $this->controller);
     }
 
     public function testIsEventInjectable()
     {
-        $this->assertInstanceOf('Zend\Mvc\InjectApplicationEventInterface', $this->controller);
+        $this->assertInstanceOf('Laminas\Mvc\InjectApplicationEventInterface', $this->controller);
     }
 
     public function testRaisesExceptionOnDispatchIfEventDoesNotContainRouteMatch()
@@ -82,7 +82,7 @@ class PageControllerTest extends TestCase
         $request = new Request();
         $this->controller->dispatch($request);
         $result = $this->event->getResult();
-        $this->assertInstanceOf('Zend\View\Model\ModelInterface', $result);
+        $this->assertInstanceOf('Laminas\View\Model\ModelInterface', $result);
         $this->assertEquals('this/template', $result->getTemplate());
     }
 
@@ -93,7 +93,7 @@ class PageControllerTest extends TestCase
         $request = new Request();
         $this->controller->dispatch($request);
         $layoutViewModel = $this->event->getViewModel();
-        $this->assertInstanceOf('Zend\View\Model\ModelInterface', $layoutViewModel);
+        $this->assertInstanceOf('Laminas\View\Model\ModelInterface', $layoutViewModel);
         $this->assertEquals('this/layout', $layoutViewModel->getTemplate());
     }
 }

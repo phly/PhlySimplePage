@@ -7,8 +7,8 @@
 
 namespace PhlySimplePageTest;
 
-use Zend\Mvc\Router\RouteMatch as LegacyRouteMatch;
-use Zend\Router\RouteMatch;
+use Laminas\Mvc\Router\RouteMatch as LegacyRouteMatch;
+use Laminas\Router\RouteMatch;
 
 trait RouteMatchCreationTrait
 {

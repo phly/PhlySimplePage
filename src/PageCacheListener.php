@@ -7,9 +7,9 @@
 
 namespace PhlySimplePage;
 
-use Zend\Cache\Storage\Adapter\AbstractAdapter;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
+use Laminas\Cache\Storage\Adapter\AbstractAdapter;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\ListenerAggregateInterface;
 
 /**
  * Event listener implementing page level caching for pages provided by the
@@ -23,7 +23,7 @@ class PageCacheListener implements ListenerAggregateInterface
     protected $cache;
 
     /**
-     * @var \Zend\Stdlib\CallbackHandler[]
+     * @var \Laminas\Stdlib\CallbackHandler[]
      */
     protected $listeners = [];
 
@@ -90,8 +90,8 @@ class PageCacheListener implements ListenerAggregateInterface
      * response; if not, we continue, but indicate that we should cache the
      * response on completion.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
-     * @return null|\Zend\Stdlib\ResponseInterface
+     * @param  \Laminas\Mvc\MvcEvent $e
+     * @return null|\Laminas\Stdlib\ResponseInterface
      */
     public function onRoutePost($e)
     {
@@ -137,7 +137,7 @@ class PageCacheListener implements ListenerAggregateInterface
      *
      * Checks to see if we should cache the current request; if so, it does.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  \Laminas\Mvc\MvcEvent $e
      */
     public function onFinishPost($e)
     {

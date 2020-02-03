@@ -12,14 +12,14 @@ use PhlySimplePage\PageCacheListener;
 use PhlySimplePage\PageController;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Zend\Cache\Storage\Adapter\AbstractAdapter;
-use Zend\EventManager\EventManager;
-use Zend\EventManager\SharedEventManager;
-use Zend\EventManager\StaticEventManager;
-use Zend\EventManager\Test\EventListenerIntrospectionTrait;
-use Zend\Mvc\Application;
-use Zend\Mvc\MvcEvent;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Cache\Storage\Adapter\AbstractAdapter;
+use Laminas\EventManager\EventManager;
+use Laminas\EventManager\SharedEventManager;
+use Laminas\EventManager\StaticEventManager;
+use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\MvcEvent;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Unit tests for PhlySimplePage\Module

@@ -85,7 +85,7 @@ You can enable a write-through cache for all pages served by the
 
 To create cache configuration, create a `phly-simple-page` configuration key in
 your configuration, with a `cache` subkey, and configuration suitable for
-`Zend\Cache\StorageFactory::factory`. As an example, the following would setup
+`Laminas\Cache\StorageFactory::factory`. As an example, the following would setup
 filesystem caching:
 
 ```php

@@ -7,8 +7,8 @@
 
 namespace PhlySimplePage;
 
-use Zend\Mvc\Application;
-use Zend\Stdlib\ResponseInterface;
+use Laminas\Mvc\Application;
+use Laminas\Stdlib\ResponseInterface;
 
 /**
  * Module class for use with ZF2
@@ -48,7 +48,7 @@ class Module
      * "PhlySimplePage\PageCacheListener" service and attach it to the
      * event manager.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  \Laminas\Mvc\MvcEvent $e
      */
     public function onBootstrap($e)
     {
@@ -69,7 +69,7 @@ class Module
      * Registers a post-dispatch listener on the controller if the matched
      * controller is the PageController from this module.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  \Laminas\Mvc\MvcEvent $e
      */
     public function onRoutePost($e)
     {
@@ -95,7 +95,7 @@ class Module
      * If the controller result is a 404 status, triggers the application
      * dispatch.error event.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  \Laminas\Mvc\MvcEvent $e
      */
     public function onDispatchPost($e)
     {

@@ -7,10 +7,10 @@
 
 namespace PhlySimplePage;
 
-use Zend\Cache\StorageFactory;
-use Zend\ServiceManager\Exception;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Cache\StorageFactory;
+use Laminas\ServiceManager\Exception;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Service factory for cache adapter used for page caching
@@ -21,7 +21,7 @@ class PageCacheService implements FactoryInterface
      * Create and return cache storage adapter
      *
      * @param  ServiceLocatorInterface $services
-     * @return \Zend\Cache\Storage\Adapter\AbstractAdapter
+     * @return \Laminas\Cache\Storage\Adapter\AbstractAdapter
      * @throws Exception\ServiceNotCreatedException
      */
     public function createService(ServiceLocatorInterface $services)

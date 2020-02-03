@@ -7,9 +7,9 @@
 
 namespace PhlySimplePageTest\TestAsset;
 
-use Zend\EventManager\EventManager;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Mvc\ApplicationInterface;
+use Laminas\EventManager\EventManager;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Mvc\ApplicationInterface;
 
 /**
  * Application stub for testing purposes
@@ -24,8 +24,8 @@ class Application implements ApplicationInterface
         $events->setIdentifiers([
             __CLASS__,
             get_class($this),
-            'Zend\Mvc\Application',
-            'Zend\Mvc\ApplicationInterface',
+            'Laminas\Mvc\Application',
+            'Laminas\Mvc\ApplicationInterface',
         ]);
         $this->events = $events;
         return $this;

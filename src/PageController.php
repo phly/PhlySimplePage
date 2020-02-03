@@ -7,21 +7,21 @@
 
 namespace PhlySimplePage;
 
-use Zend\EventManager\EventInterface;
-use Zend\EventManager\EventManager;
-use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Http\Response as HttpResponse;
-use Zend\Mvc\Application;
-use Zend\Mvc\Exception;
-use Zend\Mvc\InjectApplicationEventInterface;
-use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch as LegacyRouteMatch;
-use Zend\Router\RouteMatch;
-use Zend\Stdlib\DispatchableInterface;
-use Zend\Stdlib\RequestInterface;
-use Zend\Stdlib\ResponseInterface;
-use Zend\View\Model\ViewModel;
+use Laminas\EventManager\EventInterface;
+use Laminas\EventManager\EventManager;
+use Laminas\EventManager\EventManagerAwareInterface;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Http\Response as HttpResponse;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\Exception;
+use Laminas\Mvc\InjectApplicationEventInterface;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Mvc\Router\RouteMatch as LegacyRouteMatch;
+use Laminas\Router\RouteMatch;
+use Laminas\Stdlib\DispatchableInterface;
+use Laminas\Stdlib\RequestInterface;
+use Laminas\Stdlib\ResponseInterface;
+use Laminas\View\Model\ViewModel;
 
 /**
  * Page controller
@@ -51,7 +51,7 @@ class PageController implements
      *
      * - PhlySimplePage\PageController
      * - current class name
-     * - Zend\Stdlib\DispatchableInterface
+     * - Laminas\Stdlib\DispatchableInterface
      *
      * It also registers the onDispatch method as the default handler for the
      * dispatch event.
@@ -64,7 +64,7 @@ class PageController implements
         $events->setIdentifiers([
             __CLASS__,
             get_class($this),
-            'Zend\Stdlib\DispatchableInterface',
+            'Laminas\Stdlib\DispatchableInterface',
         ]);
         $events->attach('dispatch', [$this, 'onDispatch']);
         $this->events = $events;

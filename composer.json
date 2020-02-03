@@ -37,5 +37,10 @@
         "fabpot/php-cs-fixer": "*@dev",
         "phpunit/PHPUnit": "~3.7.0",
         "zendframework/zend-servicemanager": "2.*"
+    },
+    "extra": {
+        "zf": {
+            "module": "PhlySimplePage"
+        }
     }
 }

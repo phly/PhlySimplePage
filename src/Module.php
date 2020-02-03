@@ -28,6 +28,7 @@ class Module
     /**
      * Provide console usage messages for console endpoints
      *
+     * @deprecated Since 1.1.0. To be removed in 2.0.0.
      * @return array
      */
     public function getConsoleUsage()

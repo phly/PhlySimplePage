@@ -1,16 +1,20 @@
 <?php
+
+namespace PhlySimplePage;
+
 return array(
     'controllers' => array(
         'invokables' => array(
-            'PhlySimplePage\Controller\Page' => 'PhlySimplePage\PageController',
+            'PhlySimplePage\Controller\Page' => PageController::class,
         ),
         'factories' => array(
-            'PhlySimplePage\Controller\Cache' => 'PhlySimplePage\CacheControllerService',
+            'PhlySimplePage\Controller\Cache' => CacheControllerService::class,
         ),
     ),
     'service_manager' => array(
         'factories' => array(
-            'PhlySimplePage\PageCacheListener' => 'PhlySimplePage\PageCacheListenerService',
+            ClearCacheCommand::class => ClearCacheCommandFactory::class,
+            PageCacheListener::class => PageCacheListenerService::class,
         ),
     ),
     'console' => array('router' => array('routes' => array(

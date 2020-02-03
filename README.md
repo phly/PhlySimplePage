@@ -145,11 +145,12 @@ must support cache removal from the command line (APC, ZendServer, and several
 other adapters do not), and (b) must support flushing if you wish to clear all
 page caches at once.
 
-The module defines two command line actions:
+The module provides a vendor binary, `phly-simple-page` for accomplishing this:
 
-- `php public/index.php phlysimplepage cache clear all` -- clear all cached
-  pages at once.
-- `php public/index.php phlysimplepage cache clear --page=` clear a single
+- `./vendor/bin/phly-simple-page clear:cache` will clear all cached pages at
+  once.
+
+- `./vendor/bin/phly-simple-page clear:cache --page=` clear a single
   cached page; use the template name you used in the routing configuration as
   the page value.
 

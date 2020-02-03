@@ -15,6 +15,9 @@ use Zend\Console\ColorInterface as Color;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Mvc\Controller\AbstractActionController;
 
+/**
+ * @deprecated Since 1.1.0. To be removed in 2.0.0.
+ */
 class CacheController extends AbstractActionController
 {
     protected $cache;

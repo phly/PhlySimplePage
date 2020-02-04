@@ -16,20 +16,6 @@ use Zend\Stdlib\ResponseInterface;
 class Module
 {
     /**
-     * Retrieve autoloader configuration for this module
-     *
-     * @return array
-     */
-    public function getAutoloaderConfig()
-    {
-        return array('Zend\Loader\StandardAutoloader' => array(
-            'namespaces' => array(
-                __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-            ),
-        ));
-    }
-
-    /**
      * Retrieve application configuration for this module
      *
      * @return array
@@ -42,15 +28,16 @@ class Module
     /**
      * Provide console usage messages for console endpoints
      *
+     * @deprecated Since 1.1.0. To be removed in 2.0.0.
      * @return array
      */
     public function getConsoleUsage()
     {
-        return array(
+        return [
             'phlysimplepage cache clear all' => 'Clear caches for all static pages',
             'phlysimplepage cache clear --page=' => 'Clear caches for a single static page',
-            array('--page', 'Page name as matched via routing'),
-        );
+            ['--page', 'Page name as matched via routing'],
+        ];
     }
 
     /**
@@ -67,12 +54,12 @@ class Module
     {
         $app    = $e->getTarget();
         $events = $app->getEventManager();
-        $events->attach('route', array($this, 'onRoutePost'), -100);
+        $events->attach('route', [$this, 'onRoutePost'], -100);
 
         $services = $app->getServiceManager();
         if ($services->has('PhlySimplePage\PageCache')) {
             $listener = $services->get('PhlySimplePage\PageCacheListener');
-            $events->attach($listener);
+            $listener->attach($events);
         }
     }
 
@@ -87,7 +74,7 @@ class Module
     public function onRoutePost($e)
     {
         $matches = $e->getRouteMatch();
-        if (!$matches) {
+        if (! $matches) {
             return;
         }
 
@@ -99,7 +86,7 @@ class Module
         $app    = $e->getTarget();
         $events = $app->getEventManager();
         $shared = $events->getSharedManager();
-        $shared->attach('PhlySimplePage\PageController', 'dispatch', array($this, 'onDispatchPost'), -1);
+        $shared->attach('PhlySimplePage\PageController', 'dispatch', [$this, 'onDispatchPost'], -1);
     }
 
     /**
@@ -113,7 +100,7 @@ class Module
     public function onDispatchPost($e)
     {
         $target = $e->getTarget();
-        if (!$target instanceof PageController) {
+        if (! $target instanceof PageController) {
             return;
         }
 
@@ -143,6 +130,6 @@ class Module
      */
     public static function normalizeCacheKey($key)
     {
-        return str_replace(array('/', '\\', '.'), '_', $key);
+        return str_replace(['/', '\\', '.'], '_', $key);
     }
 }

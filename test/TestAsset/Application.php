@@ -21,19 +21,19 @@ class Application implements ApplicationInterface
 
     public function setEventManager(EventManagerInterface $events)
     {
-        $events->setIdentifiers(array(
+        $events->setIdentifiers([
             __CLASS__,
             get_class($this),
             'Zend\Mvc\Application',
             'Zend\Mvc\ApplicationInterface',
-        ));
+        ]);
         $this->events = $events;
         return $this;
     }
 
     public function getEventManager()
     {
-        if (!$this->events) {
+        if (! $this->events) {
             $this->setEventManager(new EventManager());
         }
         return $this->events;

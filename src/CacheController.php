@@ -15,6 +15,9 @@ use Zend\Console\ColorInterface as Color;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Mvc\Controller\AbstractActionController;
 
+/**
+ * @deprecated Since 1.1.0. To be removed in 2.0.0.
+ */
 class CacheController extends AbstractActionController
 {
     protected $cache;
@@ -34,7 +37,7 @@ class CacheController extends AbstractActionController
     public function clearAllAction()
     {
         $request = $this->getRequest();
-        if (!$request instanceof ConsoleRequest) {
+        if (! $request instanceof ConsoleRequest) {
             throw new RuntimeException(sprintf(
                 '%s can only be run from the console',
                 __METHOD__
@@ -43,7 +46,7 @@ class CacheController extends AbstractActionController
 
         $this->console->writeLine('Clearing caches for all static pages', Color::BLUE);
 
-        if (!$this->cache instanceof FlushableInterface) {
+        if (! $this->cache instanceof FlushableInterface) {
             $this->console->writeLine('Cache does not support flushing!', Color::RED);
             return;
         }
@@ -56,7 +59,7 @@ class CacheController extends AbstractActionController
     public function clearOneAction()
     {
         $request = $this->getRequest();
-        if (!$request instanceof ConsoleRequest) {
+        if (! $request instanceof ConsoleRequest) {
             throw new RuntimeException(sprintf(
                 '%s can only be run from the console',
                 __METHOD__
@@ -64,7 +67,7 @@ class CacheController extends AbstractActionController
         }
 
         $page = $this->params()->fromRoute('page', false);
-        if (!$page) {
+        if (! $page) {
             $this->console->writeLine('No page provided', Color::GREEN);
             return;
         }
@@ -72,7 +75,7 @@ class CacheController extends AbstractActionController
         $this->console->writeLine(sprintf('Clearing cache for page "%s"', $page), Color::BLUE);
 
         $key = Module::normalizeCacheKey($page);
-        if (!$this->cache->hasItem($key)) {
+        if (! $this->cache->hasItem($key)) {
             $this->console->writeLine('Page is not in cache', Color::GREEN);
             return;
         }

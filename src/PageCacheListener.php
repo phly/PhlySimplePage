@@ -17,6 +17,8 @@ use Laminas\Mvc\MvcEvent;
 use Laminas\Stdlib\CallbackHandler;
 use Laminas\Stdlib\ResponseInterface;
 
+use function in_array;
+
 /**
  * Event listener implementing page level caching for pages provided by the
  * PageController.

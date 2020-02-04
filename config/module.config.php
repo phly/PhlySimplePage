@@ -5,8 +5,8 @@ namespace PhlySimplePage;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
-    'controllers' => [
-        'aliases' => [
+    'controllers'     => [
+        'aliases'   => [
             'PhlySimplePage\Controller\Page' => PageController::class,
         ],
         'factories' => [

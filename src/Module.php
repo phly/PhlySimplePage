@@ -14,6 +14,7 @@ use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Stdlib\ResponseInterface;
 
+use function in_array;
 use function str_replace;
 
 class Module

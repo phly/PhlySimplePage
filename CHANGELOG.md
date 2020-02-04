@@ -10,9 +10,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- The package now requires a minimum PHP version of 7.0.
+- The package now requires a minimum PHP version of 7.2.
 
-- The package now targets the Laminas MVC, and not the Zend Framework MVC.
+- The package now targets the Laminas MVC, and not the Zend Framework MVC.  Additionally, it is pinned to the latest stable releases, which means it no longer supports v2 releases of laminas-mvc.
+
+- `PhlySimplePage\PageCacheService` was renamed to `PhlySimplePage\PageCacheFactory`, and its `createService()` method renamed to `__invoke()`.
+
+- `PhlySimplePage\PageCacheListenerService` was renamed to `PhlySimplePage\PageCacheListenerFactory`, and its `createService()` method renamed to `__invoke()`.
 
 ### Deprecated
 
@@ -20,7 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- The packge removes support for zend-mvc-console tooling in favor of the vendor binary (`phly-simple-page`) provided.
+- The package removes support for zend-mvc-console tooling in favor of the vendor binary (`phly-simple-page`) provided. This includes removal of the `PhlySimplePage\CacheController` and its factory.
 
 ### Fixed
 

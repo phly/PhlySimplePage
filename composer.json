@@ -22,20 +22,20 @@
         }
     },
     "require": {
-        "php": "^7.0",
+        "php": "^7.2",
         "laminas/laminas-cache": "^2.9",
-        "laminas/laminas-eventmanager": "^2.6.4 || ^3.2.1",
+        "laminas/laminas-eventmanager": "^3.2.1",
         "laminas/laminas-http": "^2.9.1",
-        "laminas/laminas-mvc": "^2.7.9 || ^3.1.1",
-        "laminas/laminas-stdlib": "^2.7.7 || ^3.2.1",
+        "laminas/laminas-mvc": "^3.1.1",
+        "laminas/laminas-stdlib": "^3.2.1",
         "laminas/laminas-view": "^2.9.1",
-        "symfony/console": "^3.4 || ^4.0 || ^5.0",
+        "symfony/console": "^4.0 || ^5.0",
         "ocramius/package-versions": "^1.0"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "~1.0.0",
-        "phpunit/phpunit": "^5.7.25 || ^6.4.4",
-        "laminas/laminas-servicemanager": "^2.7.11 || ^3.4.0"
+        "laminas/laminas-coding-standard": "~2.0.0@rc || ~2.0.0",
+        "phpunit/phpunit": "^8.5.2",
+        "laminas/laminas-servicemanager": "^3.4.0"
     },
     "extra": {
         "laminas": {

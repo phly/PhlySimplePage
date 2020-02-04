@@ -112,7 +112,7 @@ To enable the page cache factory, do the following:
 return [
     'service_manager' => [
         'factories' => [
-            'PhlySimplePage\PageCache' => 'PhlySimplePage\PageCacheService',
+            'PhlySimplePage\PageCache' => \PhlySimplePage\PageCacheFactory::class,
         ],
     ],
 ];

@@ -1,37 +1,45 @@
 <?php
+
 /**
  * @link      https://github.com/weierophinney/PhlySimplePage for the canonical source repository
- * @copyright Copyright (c) 2012 Matthew Weier O'Phinney (http://mwop.net)
+ * @copyright Copyright (c) 2012-2020 Matthew Weier O'Phinney (https://mwop.net)
  * @license   https://github.com/weierophinney/PhlySimplePage/blog/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace PhlySimplePageTest\TestAsset;
 
 use Laminas\EventManager\EventManager;
 use Laminas\EventManager\EventManagerInterface;
+use Laminas\Mvc\Application as MvcApplication;
 use Laminas\Mvc\ApplicationInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Application stub for testing purposes
  */
 class Application implements ApplicationInterface
 {
+    /** @var null|EventManagerInterface */
     protected $events;
+
+    /** @var null|ContainerInterface */
     public $services;
 
-    public function setEventManager(EventManagerInterface $events)
+    public function setEventManager(EventManagerInterface $events): self
     {
         $events->setIdentifiers([
-            __CLASS__,
-            get_class($this),
-            'Laminas\Mvc\Application',
-            'Laminas\Mvc\ApplicationInterface',
+            self::class,
+            static::class,
+            MvcApplication::class,
+            ApplicationInterface::class,
         ]);
         $this->events = $events;
         return $this;
     }
 
-    public function getEventManager()
+    public function getEventManager(): EventManagerInterface
     {
         if (! $this->events) {
             $this->setEventManager(new EventManager());
@@ -39,20 +47,20 @@ class Application implements ApplicationInterface
         return $this->events;
     }
 
-    public function getRequest()
+    public function getRequest(): void
     {
     }
 
-    public function getResponse()
+    public function getResponse(): void
     {
     }
 
-    public function getServiceManager()
+    public function getServiceManager(): ?ContainerInterface
     {
         return $this->services;
     }
 
-    public function run()
+    public function run(): void
     {
     }
 }

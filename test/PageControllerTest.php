@@ -1,19 +1,26 @@
 <?php
+
 /**
  * @link      https://github.com/weierophinney/PhlySimplePage for the canonical source repository
  * @copyright Copyright (c) 2012-2020 Matthew Weier O'Phinney (https://mwop.net)
  * @license   https://github.com/weierophinney/PhlySimplePage/blog/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace PhlySimplePageTest;
 
-use PhlySimplePage\PageController;
-use PHPUnit\Framework\TestCase;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\Http\Response as HttpResponse;
 use Laminas\Mvc\Application;
 use Laminas\Mvc\Exception\DomainException;
+use Laminas\Mvc\InjectApplicationEventInterface;
 use Laminas\Mvc\MvcEvent;
+use Laminas\Stdlib\DispatchableInterface;
 use Laminas\Stdlib\Request;
+use Laminas\View\Model\ModelInterface;
+use PhlySimplePage\PageController;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Unit tests for PhlySimplePage\PageController
@@ -22,29 +29,29 @@ class PageControllerTest extends TestCase
 {
     use RouteMatchCreationTrait;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->event      = new MvcEvent();
         $this->controller = new PageController();
         $this->controller->setEvent($this->event);
     }
 
-    public function testIsEventManagerAware()
+    public function testIsEventManagerAware(): void
     {
-        $this->assertInstanceOf('Laminas\EventManager\EventManagerAwareInterface', $this->controller);
+        $this->assertInstanceOf(EventManagerAwareInterface::class, $this->controller);
     }
 
-    public function testIsDispatchable()
+    public function testIsDispatchable(): void
     {
-        $this->assertInstanceOf('Laminas\Stdlib\DispatchableInterface', $this->controller);
+        $this->assertInstanceOf(DispatchableInterface::class, $this->controller);
     }
 
-    public function testIsEventInjectable()
+    public function testIsEventInjectable(): void
     {
-        $this->assertInstanceOf('Laminas\Mvc\InjectApplicationEventInterface', $this->controller);
+        $this->assertInstanceOf(InjectApplicationEventInterface::class, $this->controller);
     }
 
-    public function testRaisesExceptionOnDispatchIfEventDoesNotContainRouteMatch()
+    public function testRaisesExceptionOnDispatchIfEventDoesNotContainRouteMatch(): void
     {
         $request = new Request();
         $this->expectException(DomainException::class);
@@ -52,7 +59,7 @@ class PageControllerTest extends TestCase
         $this->controller->dispatch($request);
     }
 
-    public function testSetsNotFoundErrorOnDispatchIfRouteMatchDoesNotContainTemplate()
+    public function testSetsNotFoundErrorOnDispatchIfRouteMatchDoesNotContainTemplate(): void
     {
         $matches = $this->createRouteMatch();
         $this->event->setRouteMatch($matches);
@@ -63,7 +70,7 @@ class PageControllerTest extends TestCase
         $this->assertEquals(Application::ERROR_CONTROLLER_INVALID, $error);
     }
 
-    public function testSets404ResponseStatusOnDispatchIfRouteMatchDoesNotContainTemplate()
+    public function testSets404ResponseStatusOnDispatchIfRouteMatchDoesNotContainTemplate(): void
     {
         $matches = $this->createRouteMatch();
         $this->event->setRouteMatch($matches);
@@ -75,25 +82,25 @@ class PageControllerTest extends TestCase
         $this->assertEquals(404, $response->getStatusCode());
     }
 
-    public function testReturnsViewModelWithTemplateFromRouteMatchOnSuccess()
+    public function testReturnsViewModelWithTemplateFromRouteMatchOnSuccess(): void
     {
         $matches = $this->createRouteMatch(['template' => 'this/template']);
         $this->event->setRouteMatch($matches);
         $request = new Request();
         $this->controller->dispatch($request);
         $result = $this->event->getResult();
-        $this->assertInstanceOf('Laminas\View\Model\ModelInterface', $result);
+        $this->assertInstanceOf(ModelInterface::class, $result);
         $this->assertEquals('this/template', $result->getTemplate());
     }
 
-    public function testSetsLayoutTemplateIfLayoutFromRouteMatchIsSet()
+    public function testSetsLayoutTemplateIfLayoutFromRouteMatchIsSet(): void
     {
         $matches = $this->createRouteMatch(['template' => 'this/template', 'layout' => 'this/layout']);
         $this->event->setRouteMatch($matches);
         $request = new Request();
         $this->controller->dispatch($request);
         $layoutViewModel = $this->event->getViewModel();
-        $this->assertInstanceOf('Laminas\View\Model\ModelInterface', $layoutViewModel);
+        $this->assertInstanceOf(ModelInterface::class, $layoutViewModel);
         $this->assertEquals('this/layout', $layoutViewModel->getTemplate());
     }
 }

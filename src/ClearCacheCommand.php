@@ -1,21 +1,27 @@
 <?php
+
 /**
  * @link      https://github.com/weierophinney/PhlySimplePage for the canonical source repository
- * @copyright Copyright (c) 2020 Matthew Weier O'Phinney (http://mwop.net)
+ * @copyright Copyright (c) 2020 Matthew Weier O'Phinney (https://mwop.net)
  * @license   https://github.com/weierophinney/PhlySimplePage/blog/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace PhlySimplePage;
 
+use Laminas\Cache\Storage\Adapter\AbstractAdapter;
+use Laminas\Cache\Storage\FlushableInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Laminas\Cache\Storage\Adapter\AbstractAdapter;
-use Laminas\Cache\Storage\FlushableInterface;
+
+use function sprintf;
 
 class ClearCacheCommand extends Command
 {
+    /** @var AbstractAdapter */
     private $cache;
 
     public function __construct(AbstractAdapter $cache)
@@ -24,7 +30,7 @@ class ClearCacheCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('cache:clear');
         $this->addOption(
@@ -35,7 +41,7 @@ class ClearCacheCommand extends Command
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $page = $input->getOption('page');
         if (! $page) {
@@ -45,7 +51,7 @@ class ClearCacheCommand extends Command
         return $this->clearPage($page, $output);
     }
 
-    private function clearAllPages(OutputInterface $output)
+    private function clearAllPages(OutputInterface $output): int
     {
         $output->writeln('<info>Clearing caches for all static pages</info>');
 
@@ -61,7 +67,7 @@ class ClearCacheCommand extends Command
         return 0;
     }
 
-    private function clearPage($page, OutputInterface $output)
+    private function clearPage(string $page, OutputInterface $output): int
     {
         $output->writeln(sprintf('<info>Clearing cache for page "%s"</info>', $page));
 

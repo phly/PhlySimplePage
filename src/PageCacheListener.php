@@ -96,7 +96,7 @@ class PageCacheListener implements ListenerAggregateInterface
         }
 
         $controller = $matches->getParam('controller');
-        if ($controller !== 'PhlySimplePage\Controller\Page') {
+        if (! in_array($controller, ['PhlySimplePage\Controller\Page', PageController::class], true)) {
             return null;
         }
 

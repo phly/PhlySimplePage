@@ -1,12 +1,12 @@
 # PhlySimplePage
 
-A ZF2 module for "static" pages.
+A Laminas MVC module for "static" pages.
 
 ## Overview
 
-In most ZF2 applications, you'll have at least a few pages that are basically
-static -- the controller contains no logic for the given endpoint, and it 
-simply renders a template.
+In most Laminas MVC applications, you'll have at least a few pages that are
+basically static — the controller contains no logic for the given endpoint, and
+it simply renders a template.
 
 By default, this requires the following steps:
 
@@ -27,8 +27,7 @@ $ composer require phly/phly-simple-page
 
 ## Enable the module
 
-If you are using [zend-component-installer](https://docs.zendframework.com/zend-component-installer)
-or [laminas-component-installer](https://docs.laminas.dev/laminas-component-installer),
+If you are using [laminas-component-installer](https://docs.laminas.dev/laminas-component-installer),
 you will get prompted to add the module to your `config/application.config.php`
 file.
 
@@ -48,10 +47,12 @@ return [
 ## Usage
 
 Create configuration in your application, mapping a route to the controller
-`PhlySimplePage\Controller\Page`, and specifying a `template` key in the route
+`PhlySimplePage\PageController`, and specifying a `template` key in the route
 defaults.
 
 ```php
+use PhlySimplePage\PageController;
+
 return [
     'router' => [
         'routes' => [
@@ -60,7 +61,7 @@ return [
                 'options' => [
                     'route' => '/about',
                     'defaults' => [
-                        'controller' => 'PhlySimplePage\Controller\Page',
+                        'controller' => PageController::class,
                         'template'   => 'application/pages/about',
                         // optionally set a specific layout for this page
                         'layout'     => 'layout/some-layout',
@@ -130,7 +131,7 @@ As an example:
     'options' => [
         'route' => '/about',
         'defaults' => [
-            'controller'   => 'PhlySimplePage\Controller\Page',
+            'controller'   => \PhlySimplePage\PageController::class,
             'template'     => 'application/pages/about',
             'do_not_cache' => true,
         ],

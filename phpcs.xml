@@ -13,6 +13,7 @@
     <arg value="p" />
 
     <!-- Paths to check -->
+    <file>config</file>
     <file>src</file>
     <file>test</file>
 

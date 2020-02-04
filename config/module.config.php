@@ -2,16 +2,21 @@
 
 namespace PhlySimplePage;
 
-return array(
-    'controllers' => array(
-        'invokables' => array(
+use Laminas\ServiceManager\Factory\InvokableFactory;
+
+return [
+    'controllers' => [
+        'aliases' => [
             'PhlySimplePage\Controller\Page' => PageController::class,
-        ),
-    ),
-    'service_manager' => array(
-        'factories' => array(
+        ],
+        'factories' => [
+            PageController::class => InvokableFactory::class,
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
             ClearCacheCommand::class => ClearCacheCommandFactory::class,
             PageCacheListener::class => PageCacheListenerFactory::class,
-        ),
-    ),
-);
+        ],
+    ],
+];

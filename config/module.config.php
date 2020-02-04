@@ -1,36 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhlySimplePage;
 
-return array(
-    'controllers' => array(
-        'invokables' => array(
+use Laminas\ServiceManager\Factory\InvokableFactory;
+
+return [
+    'controllers'     => [
+        'aliases'   => [
             'PhlySimplePage\Controller\Page' => PageController::class,
-        ),
-        'factories' => array(
-            'PhlySimplePage\Controller\Cache' => CacheControllerService::class,
-        ),
-    ),
-    'service_manager' => array(
-        'factories' => array(
+        ],
+        'factories' => [
+            PageController::class => InvokableFactory::class,
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
             ClearCacheCommand::class => ClearCacheCommandFactory::class,
-            PageCacheListener::class => PageCacheListenerService::class,
-        ),
-    ),
-    'console' => array('router' => array('routes' => array(
-        'phly-simple-page-clearall' => array('options' => array(
-            'route' => 'phlysimplepage cache clear all',
-            'defaults' => array(
-                'controller' => 'PhlySimplePage\Controller\Cache',
-                'action'     => 'clearAll',
-            ),
-        )),
-        'phly-simple-page-clearone' => array('options' => array(
-            'route' => 'phlysimplepage cache clear --page=',
-            'defaults' => array(
-                'controller' => 'PhlySimplePage\Controller\Cache',
-                'action'     => 'clearOne',
-            ),
-        )),
-    ))),
-);
+            PageCacheListener::class => PageCacheListenerFactory::class,
+        ],
+    ],
+];

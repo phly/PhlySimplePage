@@ -12,8 +12,8 @@ use PackageVersions\Versions;
 use RuntimeException;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
-use Zend\Mvc\Application as MvcApplication;
-use Zend\Stdlib\ArrayUtils;
+use Laminas\Mvc\Application as MvcApplication;
+use Laminas\Stdlib\ArrayUtils;
 
 // Setup/verify autoloading
 $cwd = getcwd();

@@ -1,43 +1,38 @@
 <?php
+
 /**
  * @link      https://github.com/weierophinney/PhlySimplePage for the canonical source repository
- * @copyright Copyright (c) 2012 Matthew Weier O'Phinney (http://mwop.net)
+ * @copyright Copyright (c) 2012-2020 Matthew Weier O'Phinney (https://mwop.net)
  * @license   https://github.com/weierophinney/PhlySimplePage/blog/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace PhlySimplePage;
 
-use Zend\Mvc\Application;
-use Zend\Stdlib\ResponseInterface;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Stdlib\ResponseInterface;
 
-/**
- * Module class for use with ZF2
- */
+use function in_array;
+use function str_replace;
+
 class Module
 {
     /**
-     * Retrieve application configuration for this module
-     *
-     * @return array
+     * Normalize a cache key
      */
-    public function getConfig()
+    public static function normalizeCacheKey(string $key): string
     {
-        return include __DIR__ . '/config/module.config.php';
+        return str_replace(['/', '\\', '.'], '_', $key);
     }
 
     /**
-     * Provide console usage messages for console endpoints
-     *
-     * @deprecated Since 1.1.0. To be removed in 2.0.0.
-     * @return array
+     * Retrieve application configuration for this module
      */
-    public function getConsoleUsage()
+    public function getConfig(): array
     {
-        return [
-            'phlysimplepage cache clear all' => 'Clear caches for all static pages',
-            'phlysimplepage cache clear --page=' => 'Clear caches for a single static page',
-            ['--page', 'Page name as matched via routing'],
-        ];
+        return include __DIR__ . '/config/module.config.php';
     }
 
     /**
@@ -47,10 +42,8 @@ class Module
      * "PhlySimplePage\PageCache" service is registered, it will pull the
      * "PhlySimplePage\PageCacheListener" service and attach it to the
      * event manager.
-     *
-     * @param  \Zend\Mvc\MvcEvent $e
      */
-    public function onBootstrap($e)
+    public function onBootstrap(MvcEvent $e): void
     {
         $app    = $e->getTarget();
         $events = $app->getEventManager();
@@ -58,7 +51,7 @@ class Module
 
         $services = $app->getServiceManager();
         if ($services->has('PhlySimplePage\PageCache')) {
-            $listener = $services->get('PhlySimplePage\PageCacheListener');
+            $listener = $services->get(PageCacheListener::class);
             $listener->attach($events);
         }
     }
@@ -68,10 +61,8 @@ class Module
      *
      * Registers a post-dispatch listener on the controller if the matched
      * controller is the PageController from this module.
-     *
-     * @param  \Zend\Mvc\MvcEvent $e
      */
-    public function onRoutePost($e)
+    public function onRoutePost(MvcEvent $e): void
     {
         $matches = $e->getRouteMatch();
         if (! $matches) {
@@ -79,14 +70,14 @@ class Module
         }
 
         $controller = $matches->getParam('controller');
-        if ($controller != 'PhlySimplePage\Controller\Page') {
+        if (! in_array($controller, ['PhlySimplePage\Controller\Page', PageController::class], true)) {
             return;
         }
 
         $app    = $e->getTarget();
         $events = $app->getEventManager();
         $shared = $events->getSharedManager();
-        $shared->attach('PhlySimplePage\PageController', 'dispatch', [$this, 'onDispatchPost'], -1);
+        $shared->attach(PageController::class, 'dispatch', [$this, 'onDispatchPost'], -1);
     }
 
     /**
@@ -94,19 +85,17 @@ class Module
      *
      * If the controller result is a 404 status, triggers the application
      * dispatch.error event.
-     *
-     * @param  \Zend\Mvc\MvcEvent $e
      */
-    public function onDispatchPost($e)
+    public function onDispatchPost(MvcEvent $e): ?ResponseInterface
     {
         $target = $e->getTarget();
         if (! $target instanceof PageController) {
-            return;
+            return null;
         }
 
         $error = $e->getError();
-        if ($error != Application::ERROR_CONTROLLER_INVALID) {
-            return;
+        if ($error !== Application::ERROR_CONTROLLER_INVALID) {
+            return null;
         }
 
         $app     = $e->getApplication();
@@ -120,16 +109,7 @@ class Module
         if ($return) {
             $e->setResult($return);
         }
-    }
 
-    /**
-     * Normalize a cache key
-     *
-     * @param  string $key
-     * @return string
-     */
-    public static function normalizeCacheKey($key)
-    {
-        return str_replace(['/', '\\', '.'], '_', $key);
+        return null;
     }
 }

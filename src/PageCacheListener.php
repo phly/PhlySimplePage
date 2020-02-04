@@ -1,15 +1,23 @@
 <?php
+
 /**
  * @link      https://github.com/weierophinney/PhlySimplePage for the canonical source repository
- * @copyright Copyright (c) 2012 Matthew Weier O'Phinney (http://mwop.net)
+ * @copyright Copyright (c) 2012-2020 Matthew Weier O'Phinney (https://mwop.net)
  * @license   https://github.com/weierophinney/PhlySimplePage/blog/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace PhlySimplePage;
 
-use Zend\Cache\Storage\Adapter\AbstractAdapter;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
+use Laminas\Cache\Storage\Adapter\AbstractAdapter;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\ListenerAggregateInterface;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Stdlib\CallbackHandler;
+use Laminas\Stdlib\ResponseInterface;
+
+use function in_array;
 
 /**
  * Event listener implementing page level caching for pages provided by the
@@ -17,14 +25,10 @@ use Zend\EventManager\ListenerAggregateInterface;
  */
 class PageCacheListener implements ListenerAggregateInterface
 {
-    /**
-     * @var AbstractAdapter
-     */
+    /** @var AbstractAdapter */
     protected $cache;
 
-    /**
-     * @var \Zend\Stdlib\CallbackHandler[]
-     */
+    /** @var CallbackHandler[] */
     protected $listeners = [];
 
     /**
@@ -43,8 +47,6 @@ class PageCacheListener implements ListenerAggregateInterface
 
     /**
      * Constructor
-     *
-     * @param AbstractAdapter $cache
      */
     public function __construct(AbstractAdapter $cache)
     {
@@ -59,9 +61,9 @@ class PageCacheListener implements ListenerAggregateInterface
      * - route, at priority -99,
      * - finish, at priority -10001,
      *
-     * @param EventManagerInterface $events
+     * @param int $priority
      */
-    public function attach(EventManagerInterface $events, $priority = 1)
+    public function attach(EventManagerInterface $events, $priority = 1): void
     {
         $this->listeners[] = $events->attach('route', [$this, 'onRoutePost'], -99);
         $this->listeners[] = $events->attach('finish', [$this, 'onFinishPost'], -10001);
@@ -69,10 +71,8 @@ class PageCacheListener implements ListenerAggregateInterface
 
     /**
      * Detach any registered listeners from the given event manager instance.
-     *
-     * @param EventManagerInterface $events
      */
-    public function detach(EventManagerInterface $events)
+    public function detach(EventManagerInterface $events): void
     {
         foreach ($this->listeners as $index => $listener) {
             if ($events->detach($listener)) {
@@ -89,31 +89,28 @@ class PageCacheListener implements ListenerAggregateInterface
      * cache hit for that template name. If we do, we return a populated
      * response; if not, we continue, but indicate that we should cache the
      * response on completion.
-     *
-     * @param  \Zend\Mvc\MvcEvent $e
-     * @return null|\Zend\Stdlib\ResponseInterface
      */
-    public function onRoutePost($e)
+    public function onRoutePost(MvcEvent $e): ?ResponseInterface
     {
         $matches = $e->getRouteMatch();
         if (! $matches) {
-            return;
+            return null;
         }
 
         $controller = $matches->getParam('controller');
-        if ($controller != 'PhlySimplePage\Controller\Page') {
-            return;
+        if (! in_array($controller, ['PhlySimplePage\Controller\Page', PageController::class], true)) {
+            return null;
         }
 
         // Is caching disabled for this route?
         $doNotCache = $matches->getParam('do_not_cache', false);
         if ($doNotCache) {
-            return;
+            return null;
         }
 
         $template = $matches->getParam('template', false);
         if (! $template) {
-            return;
+            return null;
         }
 
         $cacheKey = Module::normalizeCacheKey($template);
@@ -123,7 +120,7 @@ class PageCacheListener implements ListenerAggregateInterface
             // Not a cache hit; keep working, but indicate we should cache this
             $this->cacheThisRequest = true;
             $this->cacheKey         = $cacheKey;
-            return;
+            return null;
         }
 
         // Got a cache hit; inject it in the response and return the response.
@@ -136,10 +133,8 @@ class PageCacheListener implements ListenerAggregateInterface
      * "finish" event listener
      *
      * Checks to see if we should cache the current request; if so, it does.
-     *
-     * @param  \Zend\Mvc\MvcEvent $e
      */
-    public function onFinishPost($e)
+    public function onFinishPost(MvcEvent $e): void
     {
         if (! $this->cacheThisRequest || ! $this->cacheKey) {
             return;

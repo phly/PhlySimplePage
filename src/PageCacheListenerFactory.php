@@ -2,7 +2,7 @@
 
 /**
  * @link      https://github.com/weierophinney/PhlySimplePage for the canonical source repository
- * @copyright Copyright (c) 2020 Matthew Weier O'Phinney (https://mwop.net)
+ * @copyright Copyright (c) 2012-2020 Matthew Weier O'Phinney (https://mwop.net)
  * @license   https://github.com/weierophinney/PhlySimplePage/blog/master/LICENSE.md New BSD License
  */
 
@@ -12,12 +12,12 @@ namespace PhlySimplePage;
 
 use Psr\Container\ContainerInterface;
 
-class ClearCacheCommandFactory
+class PageCacheListenerFactory
 {
-    public function __invoke(ContainerInterface $container): ClearCacheCommand
+    public function __invoke(ContainerInterface $container): PageCacheListener
     {
-        return new ClearCacheCommand(
-            $container->get('PhlySimplePage\PageCache')
+        return new PageCacheListener(
+            $container->get(__NAMESPACE__ . '\PageCache')
         );
     }
 }

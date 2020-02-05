@@ -7,6 +7,7 @@
 
 namespace PhlySimplePage;
 
+use Psr\Container\ContainerInterface;
 use Zend\Cache\StorageFactory;
 use Zend\ServiceManager\Exception;
 use Zend\ServiceManager\FactoryInterface;
@@ -24,13 +25,13 @@ class PageCacheService implements FactoryInterface
      * @return \Zend\Cache\Storage\Adapter\AbstractAdapter
      * @throws Exception\ServiceNotCreatedException
      */
-    public function createService(ServiceLocatorInterface $services)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $services->get('Config');
-        if (! isset($config['phly-simple-page'], $config['phly-simple-page']['cache'])) {
+        $config = $container->get('config');
+        if (! isset($config['phly-simple-page']['cache'])) {
             throw new Exception\ServiceNotCreatedException(sprintf(
                 '%s could not create a cache storage adapter,'
-                . ' as the ["phly-simple-page"] and/or ["phly-simple-page"]["cache"]'
+                . ' as the ["phly-simple-page"]["cache"]'
                 . ' key was missing',
                 __CLASS__
             ));
@@ -40,5 +41,17 @@ class PageCacheService implements FactoryInterface
 
         $cache = StorageFactory::factory($cacheConfig);
         return $cache;
+    }
+
+    /**
+     * Create and return cache storage adapter
+     *
+     * @param  ServiceLocatorInterface $services
+     * @return \Zend\Cache\Storage\Adapter\AbstractAdapter
+     * @throws Exception\ServiceNotCreatedException
+     */
+    public function createService(ServiceLocatorInterface $services)
+    {
+        return $this($container);
     }
 }

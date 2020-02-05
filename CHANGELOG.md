@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.1.1 - 2020-02-05
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Fixes the various factory classes to add an `__invoke()` method so that they work with both version 2 and version 3 releases of zend-servicemanager.
+
 ## 1.1.0 - 2020-02-03
 
 ### Added

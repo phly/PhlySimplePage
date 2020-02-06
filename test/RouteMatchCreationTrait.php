@@ -6,7 +6,7 @@
  * @license   https://github.com/phly/PhlySimplePage/blob/master/LICENSE.md New BSD License
  */
 
-
+declare(strict_types=1);
 
 namespace PhlySimplePageTest;
 

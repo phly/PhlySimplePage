@@ -23,14 +23,14 @@
     },
     "require": {
         "php": "^7.2",
-        "laminas/laminas-cache": "^2.9",
         "laminas/laminas-eventmanager": "^3.2.1",
-        "laminas/laminas-http": "^2.9.1",
         "laminas/laminas-mvc": "^3.1.1",
         "laminas/laminas-stdlib": "^3.2.1",
-        "laminas/laminas-view": "^2.9.1",
         "symfony/console": "^4.0 || ^5.0",
-        "ocramius/package-versions": "^1.0"
+        "ocramius/package-versions": "^1.0",
+        "laminas/laminas-cache": "^3.1",
+        "laminas/laminas-http": "^2.15",
+        "laminas/laminas-view": "^2.14"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~2.0.0@rc || ~2.0.0",

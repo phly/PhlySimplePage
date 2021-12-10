@@ -1,26 +1,33 @@
 <?php
+
 /**
- * @link      https://github.com/weierophinney/PhlySimplePage for the canonical source repository
- * @copyright Copyright (c) 2012 Matthew Weier O'Phinney (http://mwop.net)
- * @license   https://github.com/weierophinney/PhlySimplePage/blog/master/LICENSE.md New BSD License
+ * @link      https://github.com/phly/PhlySimplePage for the canonical source repository
+ * @copyright Copyright (c) 2012-2020 Matthew Weier O'Phinney (https://mwop.net)
+ * @license   https://github.com/phly/PhlySimplePage/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace PhlySimplePage;
 
-use Zend\EventManager\EventInterface;
-use Zend\EventManager\EventManager;
-use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Http\Response as HttpResponse;
-use Zend\Mvc\Application;
-use Zend\Mvc\Exception;
-use Zend\Mvc\InjectApplicationEventInterface;
-use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
-use Zend\Stdlib\DispatchableInterface;
-use Zend\Stdlib\RequestInterface;
-use Zend\Stdlib\ResponseInterface;
-use Zend\View\Model\ViewModel;
+use Laminas\EventManager\EventInterface;
+use Laminas\EventManager\EventManager;
+use Laminas\EventManager\EventManagerAwareInterface;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Http\Response as HttpResponse;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\Exception;
+use Laminas\Mvc\InjectApplicationEventInterface;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Mvc\Router\RouteMatch as LegacyRouteMatch;
+use Laminas\Router\RouteMatch;
+use Laminas\Stdlib\DispatchableInterface;
+use Laminas\Stdlib\RequestInterface;
+use Laminas\Stdlib\ResponseInterface;
+use Laminas\View\Model\ViewModel;
+
+use function get_class;
+use function sprintf;
 
 /**
  * Page controller
@@ -33,14 +40,10 @@ class PageController implements
     InjectApplicationEventInterface,
     DispatchableInterface
 {
-    /**
-     * @var MvcEvent
-     */
+    /** @var MvcEvent */
     protected $event;
 
-    /**
-     * @var EventManagerInterface
-     */
+    /** @var EventManagerInterface */
     protected $events;
 
     /**
@@ -50,22 +53,19 @@ class PageController implements
      *
      * - PhlySimplePage\PageController
      * - current class name
-     * - Zend\Stdlib\DispatchableInterface
+     * - Laminas\Stdlib\DispatchableInterface
      *
      * It also registers the onDispatch method as the default handler for the
      * dispatch event.
-     *
-     * @param  EventManagerInterface $events
-     * @return PageController
      */
-    public function setEventManager(EventManagerInterface $events)
+    public function setEventManager(EventManagerInterface $events): self
     {
-        $events->setIdentifiers(array(
-            __CLASS__,
-            get_class($this),
-            'Zend\Stdlib\DispatchableInterface',
-        ));
-        $events->attach('dispatch', array($this, 'onDispatch'));
+        $events->setIdentifiers([
+            self::class,
+            static::class,
+            DispatchableInterface::class,
+        ]);
+        $events->attach('dispatch', [$this, 'onDispatch']);
         $this->events = $events;
         return $this;
     }
@@ -74,12 +74,10 @@ class PageController implements
      * Retrieve the event manager instance
      *
      * Lazy-creates an instance if none registered.
-     *
-     * @return EventManagerInterface
      */
-    public function getEventManager()
+    public function getEventManager(): EventManagerInterface
     {
-        if (!$this->events) {
+        if (! $this->events) {
             $this->setEventManager(new EventManager());
         }
         return $this->events;
@@ -89,9 +87,8 @@ class PageController implements
      * Set the current application event instance
      *
      * @param  EventInterface $event Typically an MvcEvent
-     * @return PageController
      */
-    public function setEvent(EventInterface $event)
+    public function setEvent(EventInterface $event): self
     {
         $this->event = $event;
         return $this;
@@ -99,10 +96,8 @@ class PageController implements
 
     /**
      * Retrieve the current application event instance
-     *
-     * @return EventInterface|null
      */
-    public function getEvent()
+    public function getEvent(): ?EventInterface
     {
         return $this->event;
     }
@@ -111,14 +106,12 @@ class PageController implements
      * Dispatch the current request
      *
      * @trigger dispatch
-     * @param   RequestInterface $request
-     * @param   ResponseInterface|null $response
      * @return  mixed
      */
-    public function dispatch(RequestInterface $request, ResponseInterface $response = null)
+    public function dispatch(RequestInterface $request, ?ResponseInterface $response = null)
     {
         $event = $this->getEvent();
-        if (!$event) {
+        if (! $event) {
             $event = new MvcEvent();
         }
 
@@ -126,11 +119,14 @@ class PageController implements
         if ($response) {
             $event->setResponse($response);
         }
-        $event->setTarget($this);
 
-        $results = $this->getEventManager()->trigger(__FUNCTION__, $event, function ($r) {
-            return ($r instanceof ResponseInterface);
-        });
+        $event->setTarget($this);
+        $event->setName(__FUNCTION__);
+
+        $results = $this->getEventManager()
+            ->triggerEventUntil(function ($r) {
+                return $r instanceof ResponseInterface;
+            }, $event);
 
         if ($results->stopped()) {
             return $results->last();
@@ -156,26 +152,29 @@ class PageController implements
      * @param  EventInterface $e Usually an MvcEvent
      * @throws Exception\DomainException
      */
-    public function onDispatch(EventInterface $e)
+    public function onDispatch(EventInterface $e): void
     {
-        if (!$e instanceof MvcEvent) {
+        if (! $e instanceof MvcEvent) {
             throw new Exception\DomainException(sprintf(
                 '%s requires an MvcEvent instance; received "%s"',
-                __CLASS__,
+                self::class,
                 get_class($e)
             ));
         }
 
         $matches = $e->getRouteMatch();
-        if (!$matches instanceof RouteMatch) {
+        if (
+            ! $matches instanceof RouteMatch
+            && ! $matches instanceof LegacyRouteMatch
+        ) {
             throw new Exception\DomainException(sprintf(
                 'No RouteMatch instance provided to event passed to %s',
-                __CLASS__
+                self::class
             ));
         }
 
         $template = $matches->getParam('template', false);
-        if (!$template) {
+        if (! $template) {
             $e->setError(Application::ERROR_CONTROLLER_INVALID);
             $response = $e->getResponse();
             if ($response instanceof HttpResponse) {

@@ -3,8 +3,8 @@
     "description": "ZF2 Module for easily creating static pages",
     "type": "library",
     "keywords": [
-        "zf2",
-        "zend",
+        "laminas",
+        "mvc",
         "module"
     ],
     "homepage": "https://github.com/weierophinney/PhlySimplePage",
@@ -12,30 +12,48 @@
         {
             "name": "Matthew Weier O'Phinney",
             "email": "matthew@weierophinney.net",
-            "homepage": "http://mwop.net/"
+            "homepage": "https://mwop.net/"
         }
     ],
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "PhlySimplePage\\": "src/",
             "PhlySimplePageTest\\": "test/"
-        },
-        "classmap": [
-            "./"
-        ]
+        }
     },
     "require": {
-        "php": ">=5.3.3",
-        "zendframework/zend-console": "2.*",
-        "zendframework/zend-eventmanager": "2.*",
-        "zendframework/zend-http": "2.*",
-        "zendframework/zend-mvc": "2.*",
-        "zendframework/zend-stdlib": "2.*",
-        "zendframework/zend-view": "2.*"
+        "php": "^7.2",
+        "laminas/laminas-cache": "^2.9",
+        "laminas/laminas-eventmanager": "^3.2.1",
+        "laminas/laminas-http": "^2.9.1",
+        "laminas/laminas-mvc": "^3.1.1",
+        "laminas/laminas-stdlib": "^3.2.1",
+        "laminas/laminas-view": "^2.9.1",
+        "symfony/console": "^4.0 || ^5.0",
+        "ocramius/package-versions": "^1.0"
     },
     "require-dev": {
-        "fabpot/php-cs-fixer": "*@dev",
-        "phpunit/PHPUnit": "~3.7.0",
-        "zendframework/zend-servicemanager": "2.*"
+        "laminas/laminas-coding-standard": "~2.0.0@rc || ~2.0.0",
+        "phpunit/phpunit": "^8.5.2",
+        "laminas/laminas-servicemanager": "^3.4.0"
+    },
+    "extra": {
+        "laminas": {
+            "module": "PhlySimplePage"
+        }
+    },
+    "bin": [
+        "bin/phly-simple-page"
+    ],
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "upload-coverage": "coveralls -v"
     }
 }

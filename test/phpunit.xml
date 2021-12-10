@@ -1,7 +1,0 @@
-<phpunit bootstrap="./Bootstrap.php" colors="true">
-    <testsuites>
-        <testsuite name="PhlySimplePage Module Tests">
-            <directory>./PhlySimplePageTest</directory>
-        </testsuite>
-    </testsuites>
-</phpunit>
